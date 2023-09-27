@@ -17,3 +17,10 @@ Investment recommendation service that helps users make better investment decisi
 ## Deployment
 
 TBD
+
+## Code style
+
+This project follows the Google Java Style Guide. All code should be formatted to conform to this
+style guide.
+The Maven Checkstyle plugin is used to enforce the project style guide. You can find configuration
+project's pom.xml file
