@@ -32,3 +32,7 @@ This project follows the Google Java Style Guide. All code should be formatted t
 style guide.
 The Maven Checkstyle plugin is used to enforce the project style guide. You can find configuration
 project's pom.xml file
+
+## Target architecture
+
+![Screenshot](./src/main/resources/pics/schema.png)
