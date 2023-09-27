@@ -1,0 +1,85 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /crypto/highest-normalized-range/{day}:
+    get:
+      tags:
+      - crypto-controller
+      operationId: getCryptoWithHighestNormalizedRange
+      parameters:
+      - name: day
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CryptoPriceDto'
+  /crypto/extremes/{crypto_symbol}:
+    get:
+      tags:
+      - crypto-controller
+      operationId: getExtremes
+      parameters:
+      - name: crypto_symbol
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExtremesDto'
+  /crypto/all/sorted-by-normalized-range/desc:
+    get:
+      tags:
+      - crypto-controller
+      operationId: getAllCryptosSortedByNormalizedRangeDesc
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CryptoPriceDto'
+components:
+  schemas:
+    CryptoPriceDto:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        symbol:
+          type: string
+        price:
+          type: number
+    ExtremesDto:
+      type: object
+      properties:
+        symbol:
+          type: string
+        oldestPrice:
+          type: number
+        newestPrice:
+          type: number
+        minPrice:
+          type: number
+        maxPrice:
+          type: number
