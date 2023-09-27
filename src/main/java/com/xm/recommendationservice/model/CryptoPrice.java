@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class Crypto {
+public class CryptoPrice {
 
   private LocalDateTime timestamp;
   private String symbol;
