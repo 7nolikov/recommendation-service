@@ -24,9 +24,10 @@ Investment recommendation service that helps users make better investment decisi
 
 ## Deployment
 
-1. Build docker image `docker image build -t recommendation-service:latest .`
-2. Run docker
+- Build docker image `docker image build -t recommendation-service:latest .`
+- Run docker
    image `docker run --name recommendation-service -p 8080:8080 recommendation-service:latest`
+- Run docker-compose `docker-compose up`
 
 ## Code style
 
