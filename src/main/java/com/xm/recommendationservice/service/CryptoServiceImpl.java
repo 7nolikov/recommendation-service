@@ -3,7 +3,9 @@ package com.xm.recommendationservice.service;
 import com.xm.recommendationservice.model.CryptoPriceDto;
 import com.xm.recommendationservice.model.ExtremesDto;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CryptoServiceImpl implements CryptoService {
 
   @Override

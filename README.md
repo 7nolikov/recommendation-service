@@ -14,6 +14,14 @@ Investment recommendation service that helps users make better investment decisi
 3. Install the dependencies: `mvn clean install`
 4. Start the project: `mvn spring-boot:run`
 
+## Swagger
+
+- openapi json specification available at `{host}:{port}/api-docs`
+- openapi yaml specification available at `{host}:{port}/api-docs.yaml`
+- swagger ui available at `{host}:{port}/swagger-ui/index.html`
+- openapi yaml specification is saved to `springdoc/openapi.yaml` during the integration-test phase of
+  build
+
 ## Deployment
 
 TBD
