@@ -4,7 +4,7 @@ Investment recommendation service that helps users make better investment decisi
 
 ## Requirements
 
-- Java 11 or higher
+- Java 17
 - Maven 3.8.6 or higher
 
 ## Getting started
@@ -24,7 +24,9 @@ Investment recommendation service that helps users make better investment decisi
 
 ## Deployment
 
-TBD
+1. Build docker image `docker image build -t recommendation-service:latest .`
+2. Run docker
+   image `docker run --name recommendation-service -p 8080:8080 recommendation-service:latest`
 
 ## Code style
 
