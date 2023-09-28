@@ -27,6 +27,11 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
   @Override
   public List<CryptoPrice> loadCryptoPrices() {
     String directoryPath = properties.getPricesSourcePath();
+    if (directoryPath == null) {
+      log.error("Source directory was not specified");
+      throw new ResourceNotLoadedException("Source directory was not specified");
+    }
+
     log.debug("Starting to load data from directory: {}", directoryPath);
 
     List<CryptoPrice> loadedCryptoPrices = new ArrayList<>();
