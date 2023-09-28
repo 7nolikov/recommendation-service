@@ -1,5 +1,8 @@
-package com.xm.recommendationservice.exception;
+package com.xm.recommendationservice.controller;
 
+import com.xm.recommendationservice.exception.CryptoNotFoundException;
+import com.xm.recommendationservice.exception.CryptoServiceException;
+import com.xm.recommendationservice.exception.ResourceNotLoadedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
