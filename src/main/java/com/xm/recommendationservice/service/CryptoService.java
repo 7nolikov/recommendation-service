@@ -14,7 +14,7 @@ public interface CryptoService {
    *
    * @return a descending sorted list of all the cryptos, comparing the normalized range
    */
-  List<CryptoPriceDto> getAllCryptosSortedByNormalizedRangeDesc();
+  List<CryptoPriceDto> getAllCryptosSortedByNormalizedRange();
 
   /**
    * Returns the oldest/newest/min/max values for a requested crypto.
@@ -30,5 +30,5 @@ public interface CryptoService {
    * @param day the day to get the highest normalized range for
    * @return the crypto with the highest normalized range for the given day
    */
-  CryptoPriceDto getCryptoWithHighestNormalizedRange(String day);
+  CryptoPriceDto findWithHighestNormalizedRange(String day);
 }

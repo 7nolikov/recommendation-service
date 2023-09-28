@@ -1,11 +1,14 @@
 package com.xm.recommendationservice.service;
 
 import com.xm.recommendationservice.cache.CryptoCache;
+import com.xm.recommendationservice.model.CryptoPrice;
 import com.xm.recommendationservice.model.CryptoPriceDto;
 import com.xm.recommendationservice.model.ExtremesDto;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CryptoServiceImpl implements CryptoService {
 
   private final CryptoCache cryptoCache;
@@ -20,12 +24,15 @@ public class CryptoServiceImpl implements CryptoService {
 
   @PostConstruct
   private void postConstruct() {
-
+    List<CryptoPrice> cryptoPrices = cryptoPriceLoader.load();
+    log.info("Crypto prices loaded total: {}", cryptoPrices.size());
+    cryptoCache.set("all", cryptoPrices);
   }
 
   @Override
-  public List<CryptoPriceDto> getAllCryptosSortedByNormalizedRangeDesc() {
-    return null;
+  public List<CryptoPriceDto> getAllCryptosSortedByNormalizedRange() {
+    List<CryptoPrice> cryptos = cryptoCache.get("all");
+    return cryptos.stream().map(crypto -> CryptoPriceDto.builder().build()).collect(Collectors.toList());
   }
 
   @Override
@@ -34,7 +41,7 @@ public class CryptoServiceImpl implements CryptoService {
   }
 
   @Override
-  public CryptoPriceDto getCryptoWithHighestNormalizedRange(String day) {
+  public CryptoPriceDto findWithHighestNormalizedRange(String day) {
     return null;
   }
 }

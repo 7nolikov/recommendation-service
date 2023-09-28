@@ -20,7 +20,7 @@ class CryptoServiceImplTest {
 
   @Test
   void getAllCryptosSortedByNormalizedRangeDesc() {
-    List<CryptoPriceDto> allCryptosSortedByNormalizedRangeDesc = service.getAllCryptosSortedByNormalizedRangeDesc();
+    List<CryptoPriceDto> allCryptosSortedByNormalizedRangeDesc = service.getAllCryptosSortedByNormalizedRange();
     List<CryptoPriceDto> expected = Collections.emptyList();
     assertEquals(expected, allCryptosSortedByNormalizedRangeDesc);
   }
@@ -34,7 +34,7 @@ class CryptoServiceImplTest {
 
   @Test
   void getCryptoWithHighestNormalizedRange() {
-    CryptoPriceDto cryptoWithHighestNormalizedRange = service.getCryptoWithHighestNormalizedRange(any());
+    CryptoPriceDto cryptoWithHighestNormalizedRange = service.findWithHighestNormalizedRange(any());
     CryptoPriceDto expected = CryptoPriceDto.builder().build();
     assertEquals(expected, cryptoWithHighestNormalizedRange);
   }

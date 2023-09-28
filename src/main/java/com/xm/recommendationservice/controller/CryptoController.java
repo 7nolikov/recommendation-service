@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * REST controller for getting cryptocurrencies information.
  */
 @RestController
-@RequestMapping("crypto")
+@RequestMapping("v1/crypto")
 @RequiredArgsConstructor
 public class CryptoController {
 
@@ -26,9 +26,9 @@ public class CryptoController {
    *
    * @return a descending sorted list of all the cryptos, comparing the normalized range
    */
-  @GetMapping("/all/sorted-by-normalized-range/desc")
-  public List<CryptoPriceDto> getAllCryptosSortedByNormalizedRangeDesc() {
-    return cryptoService.getAllCryptosSortedByNormalizedRangeDesc();
+  @GetMapping("/sorted-by-normalized-range")
+  public List<CryptoPriceDto> getAllCryptosSortedByNormalizedRange() {
+    return cryptoService.getAllCryptosSortedByNormalizedRange();
   }
 
   /**
@@ -49,7 +49,7 @@ public class CryptoController {
    * @return the crypto with the highest normalized range for the given day
    */
   @GetMapping("/highest-normalized-range/{day}")
-  public CryptoPriceDto getCryptoWithHighestNormalizedRange(@PathVariable("day") String day) {
-    return cryptoService.getCryptoWithHighestNormalizedRange(day);
+  public CryptoPriceDto findWithHighestNormalizedRange(@PathVariable("day") String day) {
+    return cryptoService.findWithHighestNormalizedRange(day);
   }
 }
