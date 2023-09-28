@@ -22,7 +22,7 @@ public interface CryptoService {
    * @param cryptoSymbol the ID of the crypto to get the oldest/newest/min/max values for
    * @return the oldest/newest/min/max values for the given crypto
    */
-  List<ExtremesDto> getExtremes(String cryptoSymbol);
+  ExtremesDto getExtremes(String cryptoSymbol);
 
   /**
    * Returns the crypto with the highest normalized range for a specific day.

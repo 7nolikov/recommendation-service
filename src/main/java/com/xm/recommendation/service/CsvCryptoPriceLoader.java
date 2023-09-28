@@ -49,7 +49,7 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
       loadedCryptoPrices.addAll(loadFile(file));
     }
 
-    log.debug("Finished loading data");
+    log.info("Finished loading data");
     return loadedCryptoPrices;
   }
 

@@ -1,6 +1,5 @@
 package com.xm.recommendation.service;
 
-import com.xm.recommendation.config.ConfigProperties;
 import com.xm.recommendation.model.CryptoPrice;
 import com.xm.recommendation.model.CryptoPriceDto;
 import com.xm.recommendation.model.ExtremesDto;
@@ -21,24 +20,31 @@ import org.springframework.stereotype.Service;
 public class CryptoServiceImpl implements CryptoService {
 
   private final CryptoPriceLoader cryptoPriceLoader;
-  private final ConfigProperties properties;
+  private List<CryptoPrice> cryptoPrices;
 
   @PostConstruct
   private void postConstruct() {
-    List<CryptoPrice> cryptoPrices = cryptoPriceLoader.load();
+    cryptoPrices = cryptoPriceLoader.load();
     log.info("Crypto prices loaded total: {}", cryptoPrices.size());
   }
 
   @Override
   public List<CryptoPriceDto> getAllCryptosSortedByNormalizedRange() {
     List<CryptoPrice> cryptos = Collections.emptyList();
-    return cryptos.stream().map(crypto -> CryptoPriceDto.builder().build()).collect(Collectors.toList());
+    return cryptos.stream().map(crypto -> CryptoPriceDto.builder().build()).toList();
   }
 
   @Override
-  public List<ExtremesDto> getExtremes(String cryptoSymbol) {
-    log.info(properties.getPricesPath());
-    return null;
+  public ExtremesDto getExtremes(String cryptoSymbol) {
+    List<CryptoPrice> specificCrypto = cryptoPrices.stream().filter(crypto -> crypto.getSymbol().equals(cryptoSymbol))
+        .collect(Collectors.toList());
+    return ExtremesDto.builder()
+        .symbol(cryptoSymbol)
+        .oldestPrice(null)
+        .newestPrice(null)
+        .minPrice(null)
+        .maxPrice(null)
+        .build();
   }
 
   @Override

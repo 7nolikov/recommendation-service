@@ -38,7 +38,7 @@ public class CryptoController {
    * @return the oldest/newest/min/max values for the given crypto
    */
   @GetMapping(value = "/extremes/{crypto_symbol}", produces = MediaType.APPLICATION_JSON_VALUE)
-  List<ExtremesDto> getExtremes(@PathVariable("crypto_symbol") String cryptoSymbol) {
+  ExtremesDto getExtremes(@PathVariable("crypto_symbol") String cryptoSymbol) {
     return cryptoService.getExtremes(cryptoSymbol);
   }
 
