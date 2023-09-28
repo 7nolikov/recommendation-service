@@ -9,7 +9,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +38,7 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
     log.debug("Starting to load data from directory: {}", directoryPath);
 
     List<CryptoPrice> loadedCryptoPrices = new ArrayList<>();
-    File directory = new File(directoryPath);
+    File directory = new File(ClassLoader.getSystemResource(directoryPath).getFile());
     File[] files = directory.listFiles();
 
     if (files == null) {
@@ -59,8 +61,10 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
     try {
       try (CSVReader reader = new CSVReader(new FileReader(file))) {
         List<String[]> rows = reader.readAll();
-        return rows.stream().map(row -> CryptoPrice.builder().timestamp(LocalDateTime.parse(row[0])).symbol(row[1])
-            .price(new BigDecimal(row[2])).build()).toList();
+        rows.remove(0);
+        return rows.stream().map(row -> CryptoPrice.builder()
+            .timestamp(LocalDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(row[0])), ZoneOffset.UTC))
+            .symbol(row[1]).price(new BigDecimal(row[2])).build()).toList();
       }
     } catch (IOException | CsvException e) {
       throw new ResourceNotLoadedException("Resource can't be loaded", e);
