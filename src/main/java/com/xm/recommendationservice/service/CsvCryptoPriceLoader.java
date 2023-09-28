@@ -1,11 +1,13 @@
 package com.xm.recommendationservice.service;
 
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import com.xm.recommendationservice.config.ConfigurationProperties;
 import com.xm.recommendationservice.exception.ResourceNotLoadedException;
 import com.xm.recommendationservice.model.CryptoPrice;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,7 +41,6 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
     File[] files = directory.listFiles();
 
     if (files == null) {
-      log.error("Specified directory is unavailable: {}", directoryPath);
       throw new ResourceNotLoadedException("Specified directory is unavailable");
     }
 
@@ -53,23 +54,16 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
 
   private List<CryptoPrice> loadFile(File file) {
     log.debug("Starting to load data from file: {}", file.getName());
+    if (!file.getName().endsWith("_values.csv")) {
+      throw new ResourceNotLoadedException("Source file has incorrect naming pattern" + file.getName());
+    }
     try {
-      if (file.getName().endsWith("_values.csv")) {
-        try (CSVReader reader = new CSVReader(new FileReader(file))) {
-          List<String[]> rows = reader.readAll();
-          return rows.stream().map(row -> CryptoPrice.builder()
-                  .timestamp(LocalDateTime.parse(row[0]))
-                  .symbol(row[1])
-                  .price(new BigDecimal(row[2]))
-                  .build())
-              .toList();
-        }
-      } else {
-        log.error("Source file has incorrect naming pattern: {}", file.getName());
-        throw new ResourceNotLoadedException("Source file has incorrect naming pattern");
+      try (CSVReader reader = new CSVReader(new FileReader(file))) {
+        List<String[]> rows = reader.readAll();
+        return rows.stream().map(row -> CryptoPrice.builder().timestamp(LocalDateTime.parse(row[0])).symbol(row[1])
+            .price(new BigDecimal(row[2])).build()).toList();
       }
-    } catch (Exception e) {
-      log.error("Resource can't be loaded: {}", e.getMessage());
+    } catch (IOException | CsvException e) {
       throw new ResourceNotLoadedException("Resource can't be loaded", e);
     }
   }
