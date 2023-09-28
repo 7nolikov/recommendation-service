@@ -23,6 +23,7 @@
     <java.version>17</java.version>
     <openapi.version>2.1.0</openapi.version>
     <opencsv.version>5.8</opencsv.version>
+    <bucket4j.version>8.4.0</bucket4j.version>
   </properties>
 
   <dependencies>
@@ -43,6 +44,11 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.bucket4j</groupId>
+      <artifactId>bucket4j-core</artifactId>
+      <version>${bucket4j.version}</version>
     </dependency>
     <dependency>
       <groupId>com.opencsv</groupId>

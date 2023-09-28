@@ -12,12 +12,14 @@ import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * A service that loads crypto prices from CSV files.
  */
-@Slf4j
+@Service
 @RequiredArgsConstructor
+@Slf4j
 public class CsvCryptoPriceLoader implements CryptoPriceLoader {
 
   private final ConfigurationProperties properties;
@@ -28,7 +30,7 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
     log.debug("Starting to load data from filepath: {}", directoryPath);
 
     URL systemResource = ClassLoader.getSystemResource("prices/BTC_values");
-    List<String[]> strings = loadFile(systemResource);
+//    List<String[]> strings = loadFile(systemResource);
     return Collections.emptyList();
   }
 
