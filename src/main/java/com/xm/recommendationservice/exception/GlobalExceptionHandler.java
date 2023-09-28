@@ -18,8 +18,8 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  @ExceptionHandler(ResourceCannotBeLoadedException.class)
-  public ResponseEntity<Object> handleCryptoServiceException(ResourceCannotBeLoadedException exception) {
+  @ExceptionHandler(ResourceNotLoadedException.class)
+  public ResponseEntity<Object> handleCryptoServiceException(ResourceNotLoadedException exception) {
     return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
