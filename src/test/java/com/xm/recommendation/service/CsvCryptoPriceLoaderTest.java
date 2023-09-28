@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-import com.xm.recommendation.config.ConfigurationProperties;
+import com.xm.recommendation.config.ConfigProperties;
 import com.xm.recommendation.exception.ResourceNotLoadedException;
 import com.xm.recommendation.model.CryptoPrice;
 import java.io.File;
@@ -29,7 +29,7 @@ class CsvCryptoPriceLoaderTest {
   @InjectMocks
   private CsvCryptoPriceLoader csvCryptoPriceLoader;
   @Mock
-  private ConfigurationProperties properties;
+  private ConfigProperties properties;
   @Mock
   private File file;
   @Mock

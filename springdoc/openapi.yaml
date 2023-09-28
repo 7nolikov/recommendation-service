@@ -6,11 +6,25 @@ servers:
 - url: http://localhost:8080
   description: Generated server url
 paths:
-  /crypto/highest-normalized-range/{day}:
+  /v1/crypto/sorted-by-normalized-range:
     get:
       tags:
       - crypto-controller
-      operationId: getCryptoWithHighestNormalizedRange
+      operationId: getAllCryptosSortedByNormalizedRange
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CryptoPriceDto'
+  /v1/crypto/highest-normalized-range/{day}:
+    get:
+      tags:
+      - crypto-controller
+      operationId: findWithHighestNormalizedRange
       parameters:
       - name: day
         in: path
@@ -24,7 +38,7 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/CryptoPriceDto'
-  /crypto/extremes/{crypto_symbol}:
+  /v1/crypto/extremes/{crypto_symbol}:
     get:
       tags:
       - crypto-controller
@@ -44,20 +58,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ExtremesDto'
-  /crypto/all/sorted-by-normalized-range/desc:
-    get:
-      tags:
-      - crypto-controller
-      operationId: getAllCryptosSortedByNormalizedRangeDesc
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CryptoPriceDto'
 components:
   schemas:
     CryptoPriceDto:

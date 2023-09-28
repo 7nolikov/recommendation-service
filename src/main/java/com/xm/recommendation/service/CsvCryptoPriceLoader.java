@@ -2,7 +2,7 @@ package com.xm.recommendation.service;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-import com.xm.recommendation.config.ConfigurationProperties;
+import com.xm.recommendation.config.ConfigProperties;
 import com.xm.recommendation.exception.ResourceNotLoadedException;
 import com.xm.recommendation.model.CryptoPrice;
 import java.io.File;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class CsvCryptoPriceLoader implements CryptoPriceLoader {
 
-  private final ConfigurationProperties properties;
+  private final ConfigProperties properties;
 
   @Override
   public List<CryptoPrice> load() {
