@@ -2,7 +2,6 @@ package com.xm.recommendation.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.opencsv.CSVReader;
@@ -26,7 +25,6 @@ class CsvCryptoPriceLoaderTest {
 
   private static final String DIRECTORY_PATH = "/path/to/directory";
   private static final String FILE_PATH = "/path/to/directory/BTC_values.csv";
-  private static final String INCORRECT_FILE_PATH = "/path/to/directory/BTC_values.txt";
 
   @InjectMocks
   private CsvCryptoPriceLoader csvCryptoPriceLoader;

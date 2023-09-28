@@ -30,7 +30,6 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
   public List<CryptoPrice> load() {
     String directoryPath = properties.getPricesPath();
     if (directoryPath == null) {
-      log.error("Source directory was not specified");
       throw new ResourceNotLoadedException("Source directory was not specified");
     }
 
