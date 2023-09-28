@@ -11,7 +11,6 @@ import com.xm.recommendationservice.config.ConfigurationProperties;
 import com.xm.recommendationservice.exception.ResourceNotLoadedException;
 import com.xm.recommendationservice.model.CryptoPrice;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -43,7 +42,7 @@ class CsvCryptoPriceLoaderTest {
     when(properties.getPricesSourcePath()).thenReturn(DIRECTORY_PATH);
     when(file.listFiles()).thenReturn(new File[]{new File(FILE_PATH)});
 
-    List<CryptoPrice> cryptoPrices = csvCryptoPriceLoader.loadCryptoPrices();
+    List<CryptoPrice> cryptoPrices = csvCryptoPriceLoader.load();
 
     assertEquals(1, cryptoPrices.size());
     CryptoPrice cryptoPrice = cryptoPrices.get(0);
@@ -56,14 +55,14 @@ class CsvCryptoPriceLoaderTest {
   void shouldThrowExceptionWhenDirectoryIsUnavailable() {
     when(properties.getPricesSourcePath()).thenReturn(null);
 
-    assertThrows(ResourceNotLoadedException.class, () -> csvCryptoPriceLoader.loadCryptoPrices());
+    assertThrows(ResourceNotLoadedException.class, () -> csvCryptoPriceLoader.load());
   }
 
   @Test
   void shouldThrowExceptionWhenFileHasIncorrectNamingPattern() {
     when(properties.getPricesSourcePath()).thenReturn(DIRECTORY_PATH);
 
-    assertThrows(ResourceNotLoadedException.class, () -> csvCryptoPriceLoader.loadCryptoPrices());
+    assertThrows(ResourceNotLoadedException.class, () -> csvCryptoPriceLoader.load());
   }
 
   @Test
@@ -71,6 +70,6 @@ class CsvCryptoPriceLoaderTest {
     when(properties.getPricesSourcePath()).thenReturn(DIRECTORY_PATH);
     when(properties.getPricesSourcePath()).thenReturn(DIRECTORY_PATH);
 
-    assertThrows(ResourceNotLoadedException.class, () -> csvCryptoPriceLoader.loadCryptoPrices());
+    assertThrows(ResourceNotLoadedException.class, () -> csvCryptoPriceLoader.load());
   }
 }

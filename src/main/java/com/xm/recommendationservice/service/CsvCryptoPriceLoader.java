@@ -27,7 +27,7 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
   private final ConfigurationProperties properties;
 
   @Override
-  public List<CryptoPrice> loadCryptoPrices() {
+  public List<CryptoPrice> load() {
     String directoryPath = properties.getPricesSourcePath();
     if (directoryPath == null) {
       log.error("Source directory was not specified");

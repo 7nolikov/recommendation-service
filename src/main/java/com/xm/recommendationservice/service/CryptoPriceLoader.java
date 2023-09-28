@@ -13,5 +13,5 @@ public interface CryptoPriceLoader {
    *
    * @return A list of crypto prices, or empty list if no prices could be loaded.
    */
-  List<CryptoPrice> loadCryptoPrices();
+  List<CryptoPrice> load();
 }
