@@ -39,3 +39,5 @@ project's pom.xml file
 ## Target architecture
 
 ![Screenshot](src/main/resources/static/schema.png)
+
+![Screenshot](src/main/resources/static/scale_schema.png)
