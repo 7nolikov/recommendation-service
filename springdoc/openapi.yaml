@@ -55,9 +55,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ExtremesDto'
+                $ref: '#/components/schemas/ExtremesDto'
 components:
   schemas:
     CryptoPriceDto:
