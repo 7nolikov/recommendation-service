@@ -3,6 +3,7 @@ package com.xm.recommendation.service;
 import com.xm.recommendation.model.CryptoPriceDto;
 import com.xm.recommendation.model.ExtremesDto;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service for managing cryptocurrencies.
@@ -22,7 +23,7 @@ public interface CryptoService {
    * @param cryptoSymbol the ID of the crypto to get the oldest/newest/min/max values for
    * @return the oldest/newest/min/max values for the given crypto
    */
-  ExtremesDto getExtremes(String cryptoSymbol);
+  Optional<ExtremesDto> getExtremes(String cryptoSymbol);
 
   /**
    * Returns the crypto with the highest normalized range for a specific day.
@@ -30,5 +31,5 @@ public interface CryptoService {
    * @param day the day to get the highest normalized range for
    * @return the crypto with the highest normalized range for the given day
    */
-  CryptoPriceDto findWithHighestNormalizedRange(String day);
+  Optional<CryptoPriceDto> findWithHighestNormalizedRange(String day);
 }

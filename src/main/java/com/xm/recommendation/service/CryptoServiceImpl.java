@@ -4,8 +4,8 @@ import com.xm.recommendation.model.CryptoPrice;
 import com.xm.recommendation.model.CryptoPriceDto;
 import com.xm.recommendation.model.ExtremesDto;
 import jakarta.annotation.PostConstruct;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,25 +30,16 @@ public class CryptoServiceImpl implements CryptoService {
 
   @Override
   public List<CryptoPriceDto> getAllCryptosSortedByNormalizedRange() {
-    List<CryptoPrice> cryptos = Collections.emptyList();
-    return cryptos.stream().map(crypto -> CryptoPriceDto.builder().build()).toList();
+    return cryptoPrices.stream().map(crypto -> CryptoPriceDto.builder().build()).toList();
   }
 
   @Override
-  public ExtremesDto getExtremes(String cryptoSymbol) {
-    List<CryptoPrice> specificCrypto = cryptoPrices.stream().filter(crypto -> crypto.getSymbol().equals(cryptoSymbol))
-        .collect(Collectors.toList());
-    return ExtremesDto.builder()
-        .symbol(cryptoSymbol)
-        .oldestPrice(null)
-        .newestPrice(null)
-        .minPrice(null)
-        .maxPrice(null)
-        .build();
+  public Optional<ExtremesDto> getExtremes(String cryptoSymbol) {
+    return Optional.empty();
   }
 
   @Override
-  public CryptoPriceDto findWithHighestNormalizedRange(String day) {
-    return null;
+  public Optional<CryptoPriceDto> findWithHighestNormalizedRange(String day) {
+    return Optional.empty();
   }
 }
