@@ -1,6 +1,9 @@
-# Recommendation service
+# Test task | Recommendation service
 
 Investment recommendation service that helps users make better investment decisions
+
+## Test task description
+[List of requirements](TEST_TASK_DESCRIPTION.md)
 
 ## Requirements
 
