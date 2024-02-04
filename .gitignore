@@ -16,15 +16,16 @@ target/
 
 
 # dependencies
-!**/src/main/**/node_modules
-!**/src/main/**/.pnp
-!**/src/main/**.pnp.js
+src/main/client/node_modules/
+src/main/client/**/.pnp
+src/main/client/**.pnp.js
 
 # testing
-!**/src/main/**/coverage
+src/main/client/**/coverage
 
 # production
-!**/src/main/**/build
+src/main/client/node/
+src/main/client/build/
 
 # misc
 .DS_Store
