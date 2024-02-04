@@ -8,7 +8,9 @@ import com.xm.recommendation.model.CryptoPrice;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -16,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,21 +40,21 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
       throw new ResourceNotLoadedException("Source directory was not specified");
     }
 
-    log.debug("Starting to load data from directory: {}", directoryPath);
-
+    log.info("Starting to load data from directory: {}", directoryPath);
     List<CryptoPrice> loadedCryptoPrices = new ArrayList<>();
-    File directory = new File(ClassLoader.getSystemResource(directoryPath).getFile());
-    File[] files = directory.listFiles();
+    try {
+      PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+      Resource[] resources = resolver.getResources(directoryPath + "/*.csv");
 
-    if (files == null) {
-      throw new ResourceNotLoadedException("Specified directory is unavailable");
+      for (Resource resource : resources) {
+        File file = resource.getFile();
+        loadedCryptoPrices.addAll(loadFile(file));
+      }
+    } catch (IOException e) {
+      throw new ResourceNotLoadedException("Failed to load resources from directory: " + directoryPath, e);
     }
 
-    for (File file : files) {
-      loadedCryptoPrices.addAll(loadFile(file));
-    }
-
-    log.info("Finished loading data");
+    log.info("Finished loading data. Crypto prices loaded total: {}", loadedCryptoPrices.size());
     return loadedCryptoPrices;
   }
 
