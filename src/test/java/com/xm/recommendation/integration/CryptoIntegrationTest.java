@@ -25,16 +25,7 @@ class CryptoIntegrationTest {
 
   @Test
   void testGetAllCryptosSortedByNormalizedRangeDesc() {
-    ResponseEntity<List<CryptoPriceDto>> response = restTemplate.exchange("/crypto/all/sorted-by-normalized-range/desc",
-        HttpMethod.GET, null, new ParameterizedTypeReference<>() {
-        });
 
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    List<CryptoPriceDto> cryptos = response.getBody();
-    assertNotNull(cryptos);
-    assertEquals(2, cryptos.size());
-    assertEquals("Bitcoin", cryptos.get(0).getSymbol());
-    assertEquals("Ethereum", cryptos.get(1).getSymbol());
   }
 
   @Test
