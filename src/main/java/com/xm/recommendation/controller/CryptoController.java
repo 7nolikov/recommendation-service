@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * REST controller for getting cryptocurrencies information.
  */
 @RestController
-@RequestMapping("v1/crypto")
+@RequestMapping("crypto")
 @RequiredArgsConstructor
 public class CryptoController {
 
