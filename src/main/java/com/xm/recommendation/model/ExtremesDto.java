@@ -2,15 +2,11 @@ package com.xm.recommendation.model;
 
 import java.math.BigDecimal;
 import lombok.Builder;
-import lombok.Data;
 
-@Data
 @Builder
-public class ExtremesDto {
-
-  private String symbol;
-  private BigDecimal oldestPrice;
-  private BigDecimal newestPrice;
-  private BigDecimal minPrice;
-  private BigDecimal maxPrice;
-}
+public record ExtremesDto(
+    String symbol,
+    BigDecimal oldestPrice,
+    BigDecimal newestPrice,
+    BigDecimal minPrice,
+    BigDecimal maxPrice) {}

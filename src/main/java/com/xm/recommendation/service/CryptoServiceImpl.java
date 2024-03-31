@@ -6,7 +6,6 @@ import com.xm.recommendation.model.ExtremesDto;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
