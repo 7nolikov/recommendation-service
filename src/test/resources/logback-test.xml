@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <logger name="org.opengroup.osdu" level="${LOG_LEVEL}"/>
+  <springProfile name="!local">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+        <pattern>
+          %yellow([%thread]) %highlight(| %-5level |) %green(%date{HH:mm:ss.SSS}) %cyan(| %-40.40logger{0} |) %highlight(%msg%ex{4}) %n
+        </pattern>
+        <charset>utf8</charset>
+      </encoder>
+    </appender>
+    <root level="debug">
+      <appender-ref ref="CONSOLE"/>
+    </root>
+  </springProfile>
+</configuration>
