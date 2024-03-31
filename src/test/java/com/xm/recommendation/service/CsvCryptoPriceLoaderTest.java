@@ -54,8 +54,8 @@ class CsvCryptoPriceLoaderTest {
     assertEquals(5, cryptoPrices.size());
 
     CryptoPrice cryptoPrice = cryptoPrices.get(number);
-    assertEquals(symbol.trim(), cryptoPrice.getSymbol());
-    assertEquals(price, cryptoPrice.getPrice());
-    assertEquals(dateTime, cryptoPrice.getTimestamp());
+    assertEquals(symbol.trim(), cryptoPrice.symbol());
+    assertEquals(price, cryptoPrice.price());
+    assertEquals(dateTime, cryptoPrice.timestamp());
   }
 }
