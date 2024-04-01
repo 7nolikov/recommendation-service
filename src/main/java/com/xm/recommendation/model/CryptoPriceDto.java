@@ -9,7 +9,7 @@ import lombok.Builder;
  * DTO for crypto price.
  */
 @Builder
-public record CryptoPriceDto(LocalDateTime timestamp, String symbol, BigDecimal price) {
+public record CryptoPriceDto(String symbol, BigDecimal price, LocalDateTime timestamp, BigDecimal normalizedPrice) {
 
   /**
    * Convert a list of crypto prices to a list of crypto price DTOs.
@@ -25,6 +25,25 @@ public record CryptoPriceDto(LocalDateTime timestamp, String symbol, BigDecimal 
                     .timestamp(cryptoPrice.timestamp())
                     .symbol(cryptoPrice.symbol())
                     .price(cryptoPrice.price())
+                    .build())
+        .toList();
+  }
+
+  /**
+   * Convert a list of normalized crypto prices to a list of crypto price DTOs.
+   *
+   * @param normalizedAndSortedPrices the list of normalized crypto prices
+   * @return the list of crypto price DTOs
+   */
+  public static List<CryptoPriceDto> fromNormalizedCryptoPrices(List<NormalizedCryptoPrice> normalizedAndSortedPrices) {
+    return normalizedAndSortedPrices.stream()
+        .map(
+            normalizedCryptoPrice ->
+                CryptoPriceDto.builder()
+                    .timestamp(normalizedCryptoPrice.timestamp())
+                    .symbol(normalizedCryptoPrice.symbol())
+                    .price(normalizedCryptoPrice.price())
+                    .normalizedPrice(normalizedCryptoPrice.normalizedPrice())
                     .build())
         .toList();
   }

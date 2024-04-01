@@ -1,6 +1,7 @@
 package com.xm.recommendation.service;
 
 import com.xm.recommendation.model.CryptoPrice;
+import com.xm.recommendation.model.NormalizedCryptoPrice;
 import java.util.List;
 
 /**
@@ -15,5 +16,5 @@ public interface DataNormalizer {
    * @param strategy the normalization strategy
    * @return the normalized data
    */
-  List<CryptoPrice> normalize(List<CryptoPrice> cryptoPrices, NormalizationStrategy strategy);
+  List<NormalizedCryptoPrice> normalize(List<CryptoPrice> cryptoPrices, NormalizationStrategy strategy);
 }

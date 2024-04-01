@@ -8,4 +8,4 @@ import lombok.Builder;
  * DTO for crypto price.
  */
 @Builder
-public record CryptoPrice(LocalDateTime timestamp, String symbol, BigDecimal price) {}
+public record CryptoPrice(String symbol, BigDecimal price, LocalDateTime timestamp) {}
