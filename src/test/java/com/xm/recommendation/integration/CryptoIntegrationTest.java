@@ -6,9 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.xm.recommendation.model.CryptoPriceDto;
+import com.xm.recommendation.model.ExtremesDto;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +28,7 @@ class CryptoIntegrationTest {
   private TestRestTemplate restTemplate;
 
   @Test
+  @DisplayName("Should return all cryptos sorted by normalized range - Not empty list")
   void shouldReturnAllCryptosSortedByNormalizedRange() {
     ResponseEntity<CryptoPriceDto[]> response = restTemplate.getForEntity(SORTED_BY_NORMALIZED_RANGE_URL, CryptoPriceDto[].class);
     List<CryptoPriceDto> cryptoPriceDtos = Arrays.asList(Objects.requireNonNull(response.getBody()));
@@ -33,5 +36,71 @@ class CryptoIntegrationTest {
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertNotNull(cryptoPriceDtos);
     assertFalse(cryptoPriceDtos.isEmpty());
+  }
+
+  @Test
+  @DisplayName("Should return all cryptos sorted by normalized range - List contains crypto with symbol, timestamp, price fields")
+  void shouldReturnAllCryptosSortedByNormalizedRangeContainsSymbolTimestampPrice() {
+    ResponseEntity<CryptoPriceDto[]> response = restTemplate.getForEntity(SORTED_BY_NORMALIZED_RANGE_URL, CryptoPriceDto[].class);
+    List<CryptoPriceDto> cryptoPriceDtos = Arrays.asList(Objects.requireNonNull(response.getBody()));
+
+    assertTrue(
+        cryptoPriceDtos.stream()
+            .allMatch(
+                cryptoPriceDto ->
+                    cryptoPriceDto.symbol() != null
+                        && cryptoPriceDto.timestamp() != null
+                        && cryptoPriceDto.price() != null));
+  }
+
+  @Test
+  void shouldReturnCryptoPriceWhenCryptoSymbolExistsForExtremes() {
+    String existentCryptoSymbol = "BTC";
+    ResponseEntity<ExtremesDto> response = restTemplate.getForEntity(EXTREMES_URL, ExtremesDto.class, existentCryptoSymbol);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertNotNull(response.getBody());
+  }
+
+  @Test
+  void shouldReturnNotFoundWhenCryptoSymbolDoesNotExist() {
+    String nonExistentCryptoSymbol = "XYZ";
+    ResponseEntity<String> response = restTemplate.getForEntity(EXTREMES_URL, String.class, nonExistentCryptoSymbol);
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+  }
+
+  @Test
+  void shouldReturnBadRequestWhenDateIsInvalid() {
+    String invalidDate = "2022-13-01";
+    ResponseEntity<String> response = restTemplate.getForEntity(HIGHEST_NORMALIZED_RANGE_URL, String.class, invalidDate);
+
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+  }
+
+  @Test
+  void shouldReturnCryptoPriceWhenCryptoSymbolExistsForHighestNormalizedRange() {
+    String existentCryptoSymbol = "BTC";
+    ResponseEntity<CryptoPriceDto> response = restTemplate.getForEntity(HIGHEST_NORMALIZED_RANGE_URL, CryptoPriceDto.class, existentCryptoSymbol);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertNotNull(response.getBody());
+  }
+
+  @Test
+  void shouldReturnCryptoPriceWhenDateIsValidForHighestNormalizedRange() {
+    String validDate = "2022-01-01";
+    ResponseEntity<CryptoPriceDto> response = restTemplate.getForEntity(HIGHEST_NORMALIZED_RANGE_URL, CryptoPriceDto.class, validDate);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertNotNull(response.getBody());
+  }
+
+  @Test
+  void shouldReturnNotFoundWhenCryptoSymbolDoesNotExistForHighestNormalizedRange() {
+    String nonExistentCryptoSymbol = "XYZ";
+    ResponseEntity<String> response = restTemplate.getForEntity(HIGHEST_NORMALIZED_RANGE_URL, String.class, nonExistentCryptoSymbol);
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
   }
 }

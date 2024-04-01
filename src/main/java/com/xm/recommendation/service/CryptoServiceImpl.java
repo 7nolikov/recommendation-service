@@ -21,6 +21,9 @@ public class CryptoServiceImpl implements CryptoService {
   private final CryptoPriceLoader cryptoPriceLoader;
   private List<CryptoPrice> cryptoPrices;
 
+  /**
+   * Load the crypto prices after the bean is constructed.
+   */
   @PostConstruct
   private void postConstruct() {
     cryptoPrices = cryptoPriceLoader.load();
