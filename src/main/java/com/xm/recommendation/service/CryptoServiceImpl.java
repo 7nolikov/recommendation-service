@@ -10,20 +10,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-/**
- * Service for managing cryptocurrencies.
- */
+/** Service for managing cryptocurrencies. */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class CryptoServiceImpl implements CryptoService {
 
   private final CryptoPriceLoader cryptoPriceLoader;
+  private final DataNormalizerImpl dataNormalizerImpl;
   private List<CryptoPrice> cryptoPrices;
 
-  /**
-   * Load the crypto prices after the bean is constructed.
-   */
+  /** Load the crypto prices after the bean is constructed. */
   @PostConstruct
   private void postConstruct() {
     cryptoPrices = cryptoPriceLoader.load();
@@ -32,7 +29,11 @@ public class CryptoServiceImpl implements CryptoService {
 
   @Override
   public List<CryptoPriceDto> getAllCryptosSortedByNormalizedRange() {
-    return cryptoPrices.stream().map(crypto -> CryptoPriceDto.builder().build()).toList();
+    List<CryptoPrice> normalizedAndSortedPrices =
+        dataNormalizerImpl.normalize(cryptoPrices, NormalizationStrategy.MIN_MAX).stream()
+            .sorted()
+            .toList();
+    return CryptoPriceDto.fromCryptoPrices(normalizedAndSortedPrices);
   }
 
   @Override
