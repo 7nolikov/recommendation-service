@@ -39,6 +39,19 @@ public class DataNormalizerImpl implements DataNormalizer {
             .max(Comparator.naturalOrder())
             .orElseThrow(NoSuchElementException::new);
 
+    if (maxPrice.compareTo(minPrice) == 0) {
+      return cryptoPrices.stream()
+          .map(
+              cryptoPrice ->
+                  NormalizedCryptoPrice.builder()
+                      .symbol(cryptoPrice.symbol())
+                      .timestamp(cryptoPrice.timestamp())
+                      .price(cryptoPrice.price())
+                      .normalizedPrice(BigDecimal.ZERO)
+                      .build())
+          .toList();
+    }
+
     return cryptoPrices.stream()
         .map(
             cryptoPrice ->
