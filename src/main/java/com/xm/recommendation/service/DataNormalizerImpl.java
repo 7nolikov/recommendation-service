@@ -17,8 +17,8 @@ public class DataNormalizerImpl implements DataNormalizer {
   @Override
   public List<NormalizedCryptoPrice> normalize(
       List<CryptoPrice> cryptoPrices, NormalizationStrategy strategy) {
-    if (cryptoPrices.isEmpty()) {
-      throw new IllegalArgumentException("Crypto prices list is empty");
+    if (cryptoPrices == null || cryptoPrices.isEmpty() || strategy == null) {
+      throw new IllegalArgumentException("Crypto prices list or strategy is null or empty");
     }
     return switch (strategy) {
       case MIN_MAX -> normalizeByMinMax(cryptoPrices);
