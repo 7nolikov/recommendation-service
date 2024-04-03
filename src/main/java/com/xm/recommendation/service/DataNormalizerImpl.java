@@ -22,7 +22,7 @@ public class DataNormalizerImpl implements DataNormalizer {
     }
     return switch (strategy) {
       case MIN_MAX -> normalizeByMinMax(cryptoPrices);
-      case Z_SCORE -> normalizeByZScore(cryptoPrices);
+      case Z_SCORE -> normalizeByzScore(cryptoPrices);
     };
   }
 
@@ -69,7 +69,7 @@ public class DataNormalizerImpl implements DataNormalizer {
   }
 
   /** Normalize data using Z-score normalization. */
-  private List<NormalizedCryptoPrice> normalizeByZScore(List<CryptoPrice> cryptoPrices) {
+  private List<NormalizedCryptoPrice> normalizeByzScore(List<CryptoPrice> cryptoPrices) {
     BigDecimal mean =
         cryptoPrices.stream()
             .map(CryptoPrice::price)

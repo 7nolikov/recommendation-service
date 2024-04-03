@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.Builder;
 
+/**
+ * A normalized crypto price.
+ */
 @Builder
 public record NormalizedCryptoPrice(
     String symbol,

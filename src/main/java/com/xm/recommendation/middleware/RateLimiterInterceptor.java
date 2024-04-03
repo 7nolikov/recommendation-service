@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+/**
+ * An interceptor that limits the number of requests that can be made.
+ */
 @Component
 @RequiredArgsConstructor
 public class RateLimiterInterceptor implements HandlerInterceptor {

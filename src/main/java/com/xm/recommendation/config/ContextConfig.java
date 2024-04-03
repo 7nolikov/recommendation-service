@@ -19,11 +19,21 @@ import org.springframework.data.redis.serializer.RedisSerializationContext.Seria
 @EnableCaching
 public class ContextConfig {
 
+  /**
+   * Configuration for the rate limiter.
+   *
+   * @return the bandwidth configuration
+   */
   @Bean
   Bandwidth bandwidth() {
     return Bandwidth.classic(20, Refill.greedy(20, Duration.ofMinutes(1)));
   }
 
+  /**
+   * Configuration for the Redis cache.
+   *
+   * @return the cache configuration
+   */
   @Bean
   public RedisCacheConfiguration cacheConfiguration() {
     return RedisCacheConfiguration.defaultCacheConfig()
