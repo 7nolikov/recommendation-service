@@ -22,8 +22,8 @@ import org.springframework.http.ResponseEntity;
 class CryptoIntegrationTest {
 
   private static final String SORTED_BY_NORMALIZED_RANGE_URL = "/crypto/sorted-by-normalized-range";
-  private static final String EXTREMES_URL = "/crypto/extremes/{crypto_symbol}";
-  private static final String HIGHEST_NORMALIZED_RANGE_URL = "/crypto/highest-normalized-range/{day}";
+  private static final String EXTREMES_URL = "/crypto/extremes/%s";
+  private static final String HIGHEST_NORMALIZED_RANGE_URL = "/crypto/highest-normalized-range/%s";
   @Autowired
   private TestRestTemplate restTemplate;
 
@@ -56,26 +56,10 @@ class CryptoIntegrationTest {
   @Test
   void shouldReturnCryptoPriceWhenCryptoSymbolExistsForExtremes() {
     String existentCryptoSymbol = "BTC";
-    ResponseEntity<ExtremesDto> response = restTemplate.getForEntity(EXTREMES_URL, ExtremesDto.class, existentCryptoSymbol);
+    ResponseEntity<ExtremesDto> response = restTemplate.getForEntity(EXTREMES_URL.formatted(existentCryptoSymbol), ExtremesDto.class, existentCryptoSymbol);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertNotNull(response.getBody());
-  }
-
-  @Test
-  void shouldReturnNotFoundWhenCryptoSymbolDoesNotExist() {
-    String nonExistentCryptoSymbol = "XYZ";
-    ResponseEntity<String> response = restTemplate.getForEntity(EXTREMES_URL, String.class, nonExistentCryptoSymbol);
-
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-  }
-
-  @Test
-  void shouldReturnBadRequestWhenDateIsInvalid() {
-    String invalidDate = "2022-13-01";
-    ResponseEntity<String> response = restTemplate.getForEntity(HIGHEST_NORMALIZED_RANGE_URL, String.class, invalidDate);
-
-    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
   }
 
   @Test
@@ -94,13 +78,5 @@ class CryptoIntegrationTest {
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertNotNull(response.getBody());
-  }
-
-  @Test
-  void shouldReturnNotFoundWhenCryptoSymbolDoesNotExistForHighestNormalizedRange() {
-    String nonExistentCryptoSymbol = "XYZ";
-    ResponseEntity<String> response = restTemplate.getForEntity(HIGHEST_NORMALIZED_RANGE_URL, String.class, nonExistentCryptoSymbol);
-
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
   }
 }

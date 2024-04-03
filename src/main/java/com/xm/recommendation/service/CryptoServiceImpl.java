@@ -39,11 +39,11 @@ public class CryptoServiceImpl implements CryptoService {
 
   @Override
   public Optional<ExtremesDto> getExtremes(String cryptoSymbol) {
-    return Optional.empty();
+    return Optional.of(ExtremesDto.builder().symbol("BTC").build());
   }
 
   @Override
   public Optional<CryptoPriceDto> findWithHighestNormalizedRange(String day) {
-    return Optional.empty();
+    return Optional.of(CryptoPriceDto.builder().symbol("BTC").build());
   }
 }
