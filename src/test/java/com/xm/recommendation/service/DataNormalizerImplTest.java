@@ -144,7 +144,7 @@ class DataNormalizerImplTest {
 
     assertThatThrownBy(() -> dataNormalizer.normalize(cryptoPrices, NormalizationStrategy.MIN_MAX))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("Crypto prices list is empty");
+        .hasMessage("Crypto prices list or strategy is null or empty");
   }
 
   @Test
