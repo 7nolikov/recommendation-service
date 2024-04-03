@@ -8,9 +8,7 @@ import com.xm.recommendation.model.CryptoPrice;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Service;
@@ -58,6 +55,12 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
     return loadedCryptoPrices;
   }
 
+  /**
+   * Load data from a file.
+   *
+   * @param file the file to load data from
+   * @return a list of crypto prices
+   */
   private List<CryptoPrice> loadFile(File file) {
     log.debug("Starting to load data from file: {}", file.getName());
     if (!file.getName().endsWith("_values.csv")) {
