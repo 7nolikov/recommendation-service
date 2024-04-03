@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DisplayName("Crypto management integration tests")
 class CryptoIntegrationTest {
 
   private static final String SORTED_BY_NORMALIZED_RANGE_URL = "/crypto/sorted-by-normalized-range";

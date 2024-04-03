@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("CSV crypto price loader tests")
 class CsvCryptoPriceLoaderTest {
 
   @InjectMocks private CsvCryptoPriceLoader csvCryptoPriceLoader;

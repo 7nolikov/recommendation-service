@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Data normalizer tests")
 class DataNormalizerImplTest {
 
   @InjectMocks private DataNormalizerImpl dataNormalizer;
