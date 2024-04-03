@@ -12,25 +12,63 @@ Investment recommendation service that helps users make better investment decisi
 
 ## Getting started
 
-1. Clone the project repository: `git clone [Project Repository URL]`
-2. Navigate to the project directory: `cd [Project Directory]`
-3. Install the dependencies: `mvn clean install`
-4. Start the project: `mvn spring-boot:run`
+- Clone the project repository:
+```bash
+git clone https://github.com/7nolikov/recommendation-service.git
+```
+- Navigate to the project directory:
+```bash
+cd recommendation-service
+```
+- Install the dependencies: 
+```bash
+mvn clean install
+```
+- Start the project:
+```bash
+mvn spring-boot:run
+```
 
 ## Swagger
 
-- openapi json specification available at `{host}:{port}/api-docs`
-- openapi yaml specification available at `{host}:{port}/api-docs.yaml`
-- swagger ui available at `{host}:{port}/swagger-ui/index.html`
-- openapi yaml specification is saved to `springdoc/openapi.yaml` during the integration-test phase of
-  build
+| Description                              | URL                                                                       |
+|------------------------------------------|---------------------------------------------------------------------------|
+| OpenAPI JSON specification               | http://localhost:8080/api/recommendation-service/v1/api-docs              |
+| OpenAPI YAML specification               | http://localhost:8080/api/recommendation-service/v1/api-docs.yaml         |                      
+| Swagger UI                               | http://localhost:8080/api/recommendation-service/v1/swagger-ui/index.html |
+| OpenAPI YAML specification file location | [./springdoc/openapi.yaml](./springdoc/openapi.yaml)                      |
+
+## Allure Report
+
+Allure is a flexible, lightweight multi-language test report tool, 
+with the possibility of adding to the report of additional information 
+such as screenshots, logs and so on.
+
+After running your tests, an Allure report can be generated. 
+It provides a clear graphical representation of test reports in a web format view. 
+
+You can view the Allure report by opening 
+[./target/site/allure-maven-plugin/index.html](./target/site/allure-maven-plugin/index.html) file.
+To generate the Allure report, use the following command:
+
+```bash
+mvn allure:serve
+```
 
 ## Deployment
 
-- Build docker image `docker image build -t recommendation-service:latest .`
-- Run docker
-   image `docker run --name recommendation-service -p 8080:8080 recommendation-service:latest`
-- Run docker-compose `docker-compose up`
+- Build docker image
+```bash
+docker image build -t recommendation-service:latest .
+```
+- Run docker image
+```bash
+docker run --name recommendation-service -p 8080:8080 recommendation-service:latest
+```
+- Run docker-compose
+```bash
+docker-compose up
+```
 
 ## Code style
 
