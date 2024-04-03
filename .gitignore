@@ -1,6 +1,7 @@
 HELP.md
 target/
 .mvn
+.allure
 !**/src/main/**/target/
 !**/src/test/**/target/
 
