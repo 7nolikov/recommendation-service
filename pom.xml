@@ -97,6 +97,19 @@
     </dependency>
   </dependencies>
 
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${maven-checkstyle-plugin.version}</version>
+        <configuration>
+          <configLocation>google_checks.xml</configLocation>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
   <build>
     <plugins>
       <plugin>
@@ -141,7 +154,7 @@
           </execution>
         </executions>
         <configuration>
-          <apiDocsUrl>http://localhost:8080/api-docs.yaml</apiDocsUrl>
+          <apiDocsUrl>http://localhost:8080/api/recommendation-service/v1/api-docs.yaml</apiDocsUrl>
           <outputFileName>openapi.yaml</outputFileName>
           <outputDir>springdoc</outputDir>
         </configuration>
@@ -153,6 +166,7 @@
         <version>${maven-checkstyle-plugin.version}</version>
         <configuration>
           <configLocation>google_checks.xml</configLocation>
+          <suppressionsLocation>src/main/resources/checkstyle-suppressions.xml</suppressionsLocation>
           <consoleOutput>true</consoleOutput>
           <failsOnError>true</failsOnError>
           <linkXRef>false</linkXRef>
@@ -163,6 +177,13 @@
             <phase>validate</phase>
             <goals>
               <goal>check</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-checkstyle-report</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>checkstyle</goal>
             </goals>
           </execution>
         </executions>

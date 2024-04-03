@@ -75,7 +75,7 @@ docker-compose up
 This project follows the Google Java Style Guide. All code should be formatted to conform to this
 style guide.
 The Maven Checkstyle plugin is used to enforce the project style guide. You can find configuration
-project's pom.xml file
+project's `pom.xml` file and checkstyle report in [target/site/checkstyle.html](./target/site/checkstyle.html) file.
 
 ## Target architecture
 

@@ -3,10 +3,10 @@ info:
   title: OpenAPI definition
   version: v0
 servers:
-- url: http://localhost:8080
+- url: http://localhost:8080/api/recommendation-service/v1
   description: Generated server url
 paths:
-  /v1/crypto/sorted-by-normalized-range:
+  /crypto/sorted-by-normalized-range:
     get:
       tags:
       - crypto-controller
@@ -20,7 +20,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CryptoPriceDto'
-  /v1/crypto/highest-normalized-range/{day}:
+  /crypto/highest-normalized-range/{day}:
     get:
       tags:
       - crypto-controller
@@ -38,7 +38,7 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/CryptoPriceDto'
-  /v1/crypto/extremes/{crypto_symbol}:
+  /crypto/extremes/{crypto_symbol}:
     get:
       tags:
       - crypto-controller
@@ -61,12 +61,14 @@ components:
     CryptoPriceDto:
       type: object
       properties:
-        timestamp:
-          type: string
-          format: date-time
         symbol:
           type: string
         price:
+          type: number
+        timestamp:
+          type: string
+          format: date-time
+        normalizedPrice:
           type: number
     ExtremesDto:
       type: object
