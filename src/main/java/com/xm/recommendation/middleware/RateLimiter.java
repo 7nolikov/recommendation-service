@@ -13,6 +13,11 @@ public class RateLimiter {
 
   private final Bucket bucket;
 
+  /**
+   * Create a rate limiter with a given bandwidth.
+   *
+   * @param bandwidth the bandwidth to use
+   */
   @Autowired
   public RateLimiter(Bandwidth bandwidth) {
     this.bucket = Bucket.builder()

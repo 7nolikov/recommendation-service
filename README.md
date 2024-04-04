@@ -3,7 +3,8 @@
 Investment recommendation service that helps users make better investment decisions
 
 ## Test task description
-[List of requirements](TEST_TASK_DESCRIPTION.md)
+- [List of requirements](doc/TEST_TASK_DESCRIPTION.md)
+- [Code quality requirements](doc/CODE_QUALITY_CHECKLIST.md)
 
 ## Requirements
 
@@ -38,24 +39,65 @@ mvn spring-boot:run
 | Swagger UI                               | http://localhost:8080/api/recommendation-service/v1/swagger-ui/index.html |
 | OpenAPI YAML specification file location | [./springdoc/openapi.yaml](./springdoc/openapi.yaml)                      |
 
+## Project configuration
+
+Project configuration can be found in:
+- [application.properties](src/main/resources/application.properties)
+- [application-dev.properties](src/main/resources/application-dev.properties)
+- [application-prod.properties](src/main/resources/application-prod.properties)
+- [application-local.properties](src/main/resources/application-local.properties)
+
+Environment variables can be used to override the default configuration.
+
+| Property name               | Description                 | Default value |
+|-----------------------------|-----------------------------|---------------|
+| SPRING_PROFILES_ACTIVE      | Active profile              | dev           |
+| LOG_LEVEL                   | Log level                   | INFO          |
+| APPLICATION_PORT            | Application port            | 8080          |
+| PRICES_CSV_SOURCE_DIRECTORY | Prices CSV source directory | ./data/prices |
+
+## Testing
+This project includes both unit tests and integration tests to ensure the reliability and stability of its features. 
+Here's how you can run these tests using Maven.
+
+To run only the unit tests of the project, execute the following command in the root directory of the project:
+```bash
+mvn test
+```
+
+Run the following Maven command to execute both the compilation of your code and the integration tests:
+```bash
+mvn verify
+```
+
+If you need to build the project without running any tests (which can save time during development), 
+you can skip test execution with the -DskipTests flag:
+```bash
+mvn clean install -DskipTests
+```
+
+## Test coverage
+TBD
+
 ## Allure Report
 
-Allure is a flexible, lightweight multi-language test report tool, 
-with the possibility of adding to the report of additional information 
+Allure is a flexible, lightweight multi-language test report tool,
+with the possibility of adding to the report of additional information
 such as screenshots, logs and so on.
 
-After running your tests, an Allure report can be generated. 
-It provides a clear graphical representation of test reports in a web format view. 
+After running your tests, an Allure report can be generated.
+It provides a clear graphical representation of test reports in a web format view.
 
-You can view the Allure report by opening 
-[./target/site/allure-maven-plugin/index.html](./target/site/allure-maven-plugin/index.html) file.
+You can view the Allure report by opening file:
+- [./target/site/allure-maven-plugin/index.html](./target/site/allure-maven-plugin/index.html)
+
 To generate the Allure report, use the following command:
 
 ```bash
 mvn allure:serve
 ```
 
-## Deployment
+## Continuous Integration
 
 - Build docker image
 ```bash
@@ -74,8 +116,13 @@ docker-compose up
 
 This project follows the Google Java Style Guide. All code should be formatted to conform to this
 style guide.
+
 The Maven Checkstyle plugin is used to enforce the project style guide. You can find configuration
-project's `pom.xml` file and checkstyle report in [./target/site/checkstyle.html](./target/site/checkstyle.html) file.
+project's `pom.xml` file and checkstyle report in file:
+- [./target/site/checkstyle.html](./target/site/checkstyle.html)
+
+You can install the Google Java Style plugin in your IDE to help you format your code:
+- [google-java-format plugin](https://plugins.jetbrains.com/plugin/8527-google-java-format)
 
 ## Target architecture
 
