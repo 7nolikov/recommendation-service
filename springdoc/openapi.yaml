@@ -77,8 +77,14 @@ components:
           type: string
         oldestPrice:
           type: number
+        oldestTimestamp:
+          type: string
+          format: date-time
         newestPrice:
           type: number
+        newestTimestamp:
+          type: string
+          format: date-time
         minPrice:
           type: number
         maxPrice:

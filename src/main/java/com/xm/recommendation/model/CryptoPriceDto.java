@@ -3,13 +3,31 @@ package com.xm.recommendation.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import lombok.Builder;
 
-/**
- * DTO for crypto price.
- */
+/** DTO for crypto price. */
 @Builder
-public record CryptoPriceDto(String symbol, BigDecimal price, LocalDateTime timestamp, BigDecimal normalizedPrice) {
+public record CryptoPriceDto(
+    String symbol, BigDecimal price, LocalDateTime timestamp, BigDecimal normalizedPrice) {
+
+  /**
+   * Convert a crypto price to a crypto price DTO.
+   *
+   * @param normalizedCryptoPrice the normalized crypto price
+   * @return the crypto price DTO
+   */
+  public static Optional<CryptoPriceDto> fromNormalizedCryptoPrices(
+      Optional<NormalizedCryptoPrice> normalizedCryptoPrice) {
+    return normalizedCryptoPrice.map(
+        cryptoPrice ->
+            CryptoPriceDto.builder()
+                .timestamp(cryptoPrice.timestamp())
+                .symbol(cryptoPrice.symbol())
+                .price(cryptoPrice.price())
+                .normalizedPrice(cryptoPrice.normalizedPrice())
+                .build());
+  }
 
   /**
    * Convert a list of crypto prices to a list of crypto price DTOs.
@@ -35,7 +53,8 @@ public record CryptoPriceDto(String symbol, BigDecimal price, LocalDateTime time
    * @param normalizedAndSortedPrices the list of normalized crypto prices
    * @return the list of crypto price DTOs
    */
-  public static List<CryptoPriceDto> fromNormalizedCryptoPrices(List<NormalizedCryptoPrice> normalizedAndSortedPrices) {
+  public static List<CryptoPriceDto> fromNormalizedCryptoPrices(
+      List<NormalizedCryptoPrice> normalizedAndSortedPrices) {
     return normalizedAndSortedPrices.stream()
         .map(
             normalizedCryptoPrice ->

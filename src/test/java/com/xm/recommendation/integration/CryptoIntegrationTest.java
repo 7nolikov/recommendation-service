@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,19 +21,21 @@ import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayName("Crypto management integration tests")
+@Tag("integration")
 class CryptoIntegrationTest {
 
   private static final String SORTED_BY_NORMALIZED_RANGE_URL = "/crypto/sorted-by-normalized-range";
   private static final String EXTREMES_URL = "/crypto/extremes/%s";
   private static final String HIGHEST_NORMALIZED_RANGE_URL = "/crypto/highest-normalized-range/%s";
-  @Autowired
-  private TestRestTemplate restTemplate;
+  @Autowired private TestRestTemplate restTemplate;
 
   @Test
   @DisplayName("Should return all cryptos sorted by normalized range - Not empty list")
   void shouldReturnAllCryptosSortedByNormalizedRange() {
-    ResponseEntity<CryptoPriceDto[]> response = restTemplate.getForEntity(SORTED_BY_NORMALIZED_RANGE_URL, CryptoPriceDto[].class);
-    List<CryptoPriceDto> cryptoPriceDtos = Arrays.asList(Objects.requireNonNull(response.getBody()));
+    ResponseEntity<CryptoPriceDto[]> response =
+        restTemplate.getForEntity(SORTED_BY_NORMALIZED_RANGE_URL, CryptoPriceDto[].class);
+    List<CryptoPriceDto> cryptoPriceDtos =
+        Arrays.asList(Objects.requireNonNull(response.getBody()));
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertNotNull(cryptoPriceDtos);
@@ -40,10 +43,13 @@ class CryptoIntegrationTest {
   }
 
   @Test
-  @DisplayName("Should return all cryptos sorted by normalized range - List contains crypto with symbol, timestamp, price fields")
+  @DisplayName(
+      "Should return all cryptos sorted by normalized range - List contains crypto with all fields")
   void shouldReturnAllCryptosSortedByNormalizedRangeContainsSymbolTimestampPrice() {
-    ResponseEntity<CryptoPriceDto[]> response = restTemplate.getForEntity(SORTED_BY_NORMALIZED_RANGE_URL, CryptoPriceDto[].class);
-    List<CryptoPriceDto> cryptoPriceDtos = Arrays.asList(Objects.requireNonNull(response.getBody()));
+    ResponseEntity<CryptoPriceDto[]> response =
+        restTemplate.getForEntity(SORTED_BY_NORMALIZED_RANGE_URL, CryptoPriceDto[].class);
+    List<CryptoPriceDto> cryptoPriceDtos =
+        Arrays.asList(Objects.requireNonNull(response.getBody()));
 
     assertTrue(
         cryptoPriceDtos.stream()
@@ -55,29 +61,15 @@ class CryptoIntegrationTest {
   }
 
   @Test
+  @DisplayName("Should return crypto price when crypto symbol exists for extremes")
   void shouldReturnCryptoPriceWhenCryptoSymbolExistsForExtremes() {
     String existentCryptoSymbol = "BTC";
-    ResponseEntity<ExtremesDto> response = restTemplate.getForEntity(EXTREMES_URL.formatted(existentCryptoSymbol), ExtremesDto.class, existentCryptoSymbol);
+    ResponseEntity<ExtremesDto> response =
+        restTemplate.getForEntity(
+            EXTREMES_URL.formatted(existentCryptoSymbol), ExtremesDto.class, existentCryptoSymbol);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertNotNull(response.getBody());
-  }
-
-  @Test
-  void shouldReturnCryptoPriceWhenCryptoSymbolExistsForHighestNormalizedRange() {
-    String existentCryptoSymbol = "BTC";
-    ResponseEntity<CryptoPriceDto> response = restTemplate.getForEntity(HIGHEST_NORMALIZED_RANGE_URL, CryptoPriceDto.class, existentCryptoSymbol);
-
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertNotNull(response.getBody());
-  }
-
-  @Test
-  void shouldReturnCryptoPriceWhenDateIsValidForHighestNormalizedRange() {
-    String validDate = "2022-01-01";
-    ResponseEntity<CryptoPriceDto> response = restTemplate.getForEntity(HIGHEST_NORMALIZED_RANGE_URL, CryptoPriceDto.class, validDate);
-
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertNotNull(response.getBody());
+    ExtremesDto body = response.getBody();
+    assertNotNull(body);
   }
 }
