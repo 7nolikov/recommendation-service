@@ -31,7 +31,7 @@
 
 ## Tests
 - [x] Mockito unit tests
-- [ ] Test coverage
+- [x] Test coverage
 - [x] Integration tests
 - [ ] Testcontainers
 - [ ] Given Then approach

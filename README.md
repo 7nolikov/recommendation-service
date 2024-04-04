@@ -77,7 +77,9 @@ mvn clean install -DskipTests
 ```
 
 ## Test coverage
-TBD
+To generate the JaCoCo report, simply run your tests with Maven.
+After the tests complete, you'll find the JaCoCo coverage report in the specified directory:
+- [./target/site/jacoco/index.html](./target/site/jacoco/index.html)
 
 ## Allure Report
 
