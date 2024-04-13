@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import com.xm.recommendation.model.CryptoPrice;
+import com.xm.recommendation.model.CsvToCryptoPriceList;
 import com.xm.recommendation.model.NormalizedCryptoPrice;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,6 +16,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -288,26 +291,16 @@ class DataNormalizerImplTest {
           .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test
-    @DisplayName("Should throw exception when crypto prices list contains null")
-    void shouldThrowExceptionWhenCryptoPricesListContainsNull() {
-      List<CryptoPrice> cryptoPrices = Arrays.asList(null, null, null);
-
-      assertThatThrownBy(
-              () -> dataNormalizer.normalize(cryptoPrices, NormalizationStrategy.MIN_MAX))
-          .isInstanceOf(NullPointerException.class);
-    }
-
-    @Test
-    @DisplayName("Should throw exception when crypto price value is null")
-    void shouldThrowExceptionWhenCryptoPriceIsNull() {
-      List<CryptoPrice> cryptoPrices =
-          Collections.singletonList(
-              CryptoPrice.builder()
-                  .symbol("BTC")
-                  .timestamp(LocalDateTime.now())
-                  .price(null)
-                  .build());
+    @ParameterizedTest
+    @DisplayName("Should throw exception when crypto price values are null")
+    @CsvSource({
+        "null",
+        "null, null, null",
+        "BTC 50000 2024-04-01T12:00, null, ETH 3000 2024-04-01T12:05",
+        "ETH 3000 2024-04-01T12:05, BTC 50000 2024-04-01T12:00, null",
+        "null, ETH 3000 2024-04-01T12:05, BTC 50000 2024-04-01T12:00, null",
+    })
+    void shouldThrowExceptionWhenCryptoPriceIsNull(@CsvToCryptoPriceList List<CryptoPrice> cryptoPrices) {
 
       assertThatThrownBy(
               () -> dataNormalizer.normalize(cryptoPrices, NormalizationStrategy.MIN_MAX))
