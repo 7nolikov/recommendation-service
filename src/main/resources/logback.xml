@@ -4,17 +4,15 @@
   <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
   <logger name="com.xm.recommendation" level="${LOG_LEVEL}"/>
   <logger name="ch.qos.logback" level="WARN"/>
-  <springProfile name="local">
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-      <encoder>
-        <pattern>
-          %yellow([%thread]) %highlight(| %-5level |) %green(%date{HH:mm:ss.SSS}) %cyan(| %-40.40logger{0} |) %highlight(%msg%ex{4}) %n
-        </pattern>
-        <charset>utf8</charset>
-      </encoder>
-    </appender>
-    <root level="info">
-      <appender-ref ref="CONSOLE"/>
-    </root>
-  </springProfile>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>
+        %yellow([%thread]) %highlight(| %-5level |) %green(%date{HH:mm:ss.SSS}) %cyan(| %-40.40logger{0} |) %highlight(%msg%ex{4}) %n
+      </pattern>
+      <charset>utf8</charset>
+    </encoder>
+  </appender>
+  <root level="info">
+    <appender-ref ref="CONSOLE"/>
+  </root>
 </configuration>
