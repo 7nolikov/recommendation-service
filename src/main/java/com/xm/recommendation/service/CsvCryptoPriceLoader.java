@@ -70,9 +70,11 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
       try (CSVReader reader = new CSVReader(new FileReader(file))) {
         List<String[]> rows = reader.readAll();
         rows.remove(0);
-        return rows.stream().map(row -> CryptoPrice.builder()
+        List<CryptoPrice> cryptoPrices = rows.stream().map(row -> CryptoPrice.builder()
             .timestamp(LocalDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(row[0])), ZoneOffset.UTC))
             .symbol(row[1]).price(new BigDecimal(row[2])).build()).toList();
+        log.debug("Finished loading data from file: {}. Loaded {} values.", file.getName(), cryptoPrices.size());
+        return cryptoPrices;
       }
     } catch (IOException | CsvException e) {
       throw new ResourceNotLoadedException("Resource can't be loaded", e);

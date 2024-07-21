@@ -5,6 +5,7 @@ import com.xm.recommendation.model.CryptoPriceDto;
 import com.xm.recommendation.model.ExtremesDto;
 import com.xm.recommendation.model.NormalizedCryptoPrice;
 import jakarta.annotation.PostConstruct;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -37,7 +38,7 @@ public class CryptoServiceImpl implements CryptoService {
   public List<CryptoPriceDto> getAllCryptosSortedByNormalizedRange() {
     List<NormalizedCryptoPrice> normalizedAndSortedPrices =
         dataNormalizerImpl.normalize(cryptoPrices, NormalizationStrategy.MIN_MAX).stream()
-            .sorted()
+            .sorted(Comparator.comparing(NormalizedCryptoPrice::normalizedPrice).reversed())
             .toList();
     return CryptoPriceDto.fromNormalizedCryptoPrices(normalizedAndSortedPrices);
   }

@@ -16,4 +16,8 @@ public class ConfigProperties {
    * Path to the directory containing the CSV files with crypto prices.
    */
   private String pricesPath;
+  /**
+   * The scale to use for the prices.
+   */
+  private int priceScale;
 }
