@@ -1,7 +1,7 @@
 package com.xm.recommendation.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import lombok.Builder;
 
 /** DTO for crypto price extremes. */
@@ -9,9 +9,9 @@ import lombok.Builder;
 public record ExtremesDto(
     String symbol,
     BigDecimal oldestPrice,
-    LocalDateTime oldestTimestamp,
+    OffsetDateTime oldestTimestamp,
     BigDecimal newestPrice,
-    LocalDateTime newestTimestamp,
+    OffsetDateTime newestTimestamp,
     BigDecimal minPrice,
     BigDecimal maxPrice) {
 
@@ -64,7 +64,7 @@ public record ExtremesDto(
    * Convert a crypto price to a crypto price extremes DTO with a new min timestamp.
    */
   public static ExtremesDto fromMinTimestamp(
-      ExtremesDto source, BigDecimal oldestPrice, LocalDateTime minTimestamp) {
+      ExtremesDto source, BigDecimal oldestPrice, OffsetDateTime minTimestamp) {
     return ExtremesDto.builder()
         .symbol(source.symbol())
         .oldestPrice(oldestPrice)
@@ -80,7 +80,7 @@ public record ExtremesDto(
    * Convert a crypto price to a crypto price extremes DTO with a new max timestamp.
    */
   public static ExtremesDto fromMaxTimestamp(
-      ExtremesDto source, BigDecimal newestPrice, LocalDateTime maxTimestamp) {
+      ExtremesDto source, BigDecimal newestPrice, OffsetDateTime maxTimestamp) {
     return ExtremesDto.builder()
         .symbol(source.symbol())
         .oldestPrice(source.oldestPrice())

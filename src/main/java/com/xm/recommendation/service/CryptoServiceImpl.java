@@ -29,9 +29,7 @@ public class CryptoServiceImpl implements CryptoService {
   @PostConstruct
   private void postConstruct() {
     cryptoPrices = cryptoPriceLoader.load();
-    log.info("Crypto prices loaded total: {}", cryptoPrices.size());
     extremes = extremesCalculator.calculateExtremes(cryptoPrices);
-    log.info("Extremes calculated: {}", extremes);
   }
 
   @Override

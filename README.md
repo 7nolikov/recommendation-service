@@ -114,6 +114,21 @@ docker run --name recommendation-service -p 8080:8080 recommendation-service:lat
 docker-compose up
 ```
 
+## Limitations
+
+### Date format
+
+`ISO 8601` date format is used in the project.
+This decision is driven by several key advantages that ISO 8601 offers. 
+- First, it provides a human-readable format that simplifies the verification and debugging process 
+for both developers and users. 
+- Second, ISO 8601 inherently includes timezone information, using 'Z' to denote UTC, 
+which eliminates confusion around time zone conversions and ensures consistency across global markets. 
+- Additionally, the format supports high precision down to milliseconds, which is crucial for accurately recording 
+and processing transactions in the fast-paced world of cryptocurrency trading. 
+- ISO 8601 is also widely supported by APIs and data interchange standards, ensuring interoperability 
+with various external systems and services.
+
 ## Code style
 
 This project follows the Google Java Style Guide. All code should be formatted to conform to this

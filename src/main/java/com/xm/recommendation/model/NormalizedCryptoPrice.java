@@ -2,7 +2,7 @@ package com.xm.recommendation.model;
 
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import lombok.Builder;
 
@@ -13,7 +13,7 @@ import lombok.Builder;
 public record NormalizedCryptoPrice(
     String symbol,
     BigDecimal price,
-    LocalDateTime timestamp,
+    OffsetDateTime timestamp,
     BigDecimal normalizedPrice) implements Comparable<NormalizedCryptoPrice> {
 
   @Override

@@ -5,10 +5,12 @@ import com.xm.recommendation.model.ExtremesDto;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /** Implementation of the ExtremesCalculator interface. */
 @Service
+@Slf4j
 public class ExtremesCalculatorImpl implements ExtremesCalculator {
 
   @Override
@@ -41,6 +43,8 @@ public class ExtremesCalculatorImpl implements ExtremesCalculator {
             ExtremesDto.fromMaxTimestamp(extreme, cryptoPrice.price(), cryptoPrice.timestamp()));
       }
     }
+
+    log.info("Extremes calculated: {}", extremesMap.size());
     return extremesMap;
   }
 }

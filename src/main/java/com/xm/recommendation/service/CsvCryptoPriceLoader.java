@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +20,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
-/**
- * A service that loads crypto prices from CSV files.
- */
+/** A service that loads crypto prices from CSV files. */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class CsvCryptoPriceLoader implements CryptoPriceLoader {
+
+  private static final String CSV_FILE_MASK = "/*.csv";
+  private static final String SOURCE_FILE_NAMING_POSTFIX_PATTERN = "_values.csv";
 
   private final ConfigProperties properties;
 
@@ -41,14 +42,16 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
     List<CryptoPrice> loadedCryptoPrices = new ArrayList<>();
     try {
       PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-      Resource[] resources = resolver.getResources(directoryPath + "/*.csv");
+      Resource[] resources = resolver.getResources("%s%s".formatted(directoryPath, CSV_FILE_MASK));
+      log.debug("Found {} resources in the directory", resources.length);
 
       for (Resource resource : resources) {
         File file = resource.getFile();
         loadedCryptoPrices.addAll(loadFile(file));
       }
     } catch (IOException e) {
-      throw new ResourceNotLoadedException("Failed to load resources from directory: " + directoryPath, e);
+      throw new ResourceNotLoadedException(
+          "Failed to load resources from directory: " + directoryPath, e);
     }
 
     log.info("Finished loading data. Crypto prices loaded total: {}", loadedCryptoPrices.size());
@@ -63,17 +66,32 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
    */
   private List<CryptoPrice> loadFile(File file) {
     log.debug("Starting to load data from file: {}", file.getName());
-    if (!file.getName().endsWith("_values.csv")) {
-      throw new ResourceNotLoadedException("Source file has incorrect naming pattern" + file.getName());
+    if (!file.getName().endsWith(SOURCE_FILE_NAMING_POSTFIX_PATTERN)) {
+      throw new ResourceNotLoadedException(
+          "Source file has incorrect naming pattern" + file.getName());
     }
     try {
       try (CSVReader reader = new CSVReader(new FileReader(file))) {
         List<String[]> rows = reader.readAll();
         rows.remove(0);
-        List<CryptoPrice> cryptoPrices = rows.stream().map(row -> CryptoPrice.builder()
-            .timestamp(LocalDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(row[0])), ZoneOffset.UTC))
-            .symbol(row[1]).price(new BigDecimal(row[2])).build()).toList();
-        log.debug("Finished loading data from file: {}. Loaded {} values.", file.getName(), cryptoPrices.size());
+
+        List<CryptoPrice> cryptoPrices =
+            rows.stream()
+                .map(
+                    row ->
+                        CryptoPrice.builder()
+                            .timestamp(
+                                OffsetDateTime.ofInstant(
+                                    Instant.ofEpochMilli(Long.parseLong(row[0])), ZoneOffset.UTC))
+                            .symbol(row[1])
+                            .price(new BigDecimal(row[2]))
+                            .build())
+                .toList();
+
+        log.debug(
+            "Finished loading data from file: {}. Loaded {} values.",
+            file.getName(),
+            cryptoPrices.size());
         return cryptoPrices;
       }
     } catch (IOException | CsvException e) {

@@ -1,7 +1,7 @@
 package com.xm.recommendation.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.Builder;
 /** DTO for crypto price. */
 @Builder
 public record CryptoPriceDto(
-    String symbol, BigDecimal price, LocalDateTime timestamp, BigDecimal normalizedPrice) {
+    String symbol, BigDecimal price, OffsetDateTime timestamp, BigDecimal normalizedPrice) {
 
   /**
    * Convert a crypto price to a crypto price DTO.
