@@ -1,7 +1,7 @@
 package com.xm.recommendation.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.aggregator.ArgumentsAggregationException;
@@ -16,7 +16,7 @@ public class CryptoPriceAggregator implements ArgumentsAggregator {
     return CryptoPrice.builder()
         .symbol(argumentsAccessor.get(0, String.class))
         .price(argumentsAccessor.get(1, BigDecimal.class))
-        .timestamp(argumentsAccessor.get(0, LocalDateTime.class))
+        .timestamp(argumentsAccessor.get(0, OffsetDateTime.class))
         .build();
   }
 }

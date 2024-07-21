@@ -10,7 +10,7 @@ import com.xm.recommendation.model.CryptoPrice;
 import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,8 +50,8 @@ class CsvCryptoPriceLoaderTest {
     int number = Integer.parseInt(numberStr);
     long timestamp = Long.parseLong(timestampStr);
     BigDecimal price = new BigDecimal(priceStr);
-    LocalDateTime dateTime =
-        LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneOffset.UTC);
+    OffsetDateTime dateTime =
+        OffsetDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.UTC);
 
     List<CryptoPrice> cryptoPrices = csvCryptoPriceLoader.load();
 

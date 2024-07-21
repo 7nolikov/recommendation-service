@@ -1,7 +1,7 @@
 package com.xm.recommendation.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class CryptoPriceListAggregator implements ArgumentsAggregator {
         CryptoPrice price = CryptoPrice.builder()
             .symbol(parts[0])
             .price(new BigDecimal(parts[1]))
-            .timestamp(LocalDateTime.parse(parts[2], DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+            .timestamp(OffsetDateTime.parse(parts[2], DateTimeFormatter.ISO_OFFSET_DATE_TIME))
             .build();
         prices.add(price);
       } else {

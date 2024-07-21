@@ -1,5 +1,6 @@
 package com.xm.recommendation.service;
 
+import static java.util.Comparator.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -9,9 +10,8 @@ import com.xm.recommendation.model.CryptoPriceDto;
 import com.xm.recommendation.model.ExtremesDto;
 import com.xm.recommendation.model.NormalizedCryptoPrice;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,10 +28,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class CryptoServiceImplTest {
 
   @InjectMocks private CryptoServiceImpl cryptoService;
+
   @Mock private CryptoPriceLoader cryptoPriceLoader;
-
   @Mock private DataNormalizerImpl dataNormalizerImpl;
-
   @Mock private ExtremesCalculator extremesCalculator;
 
   private List<CryptoPrice> cryptoPrices;
@@ -45,12 +44,12 @@ class CryptoServiceImplTest {
             CryptoPrice.builder()
                 .symbol("BTC")
                 .price(BigDecimal.ONE)
-                .timestamp(LocalDateTime.now())
+                .timestamp(OffsetDateTime.now())
                 .build(),
             CryptoPrice.builder()
                 .symbol("ETH")
                 .price(BigDecimal.TEN)
-                .timestamp(LocalDateTime.now())
+                .timestamp(OffsetDateTime.now())
                 .build());
     extremes =
         Map.of(
@@ -61,13 +60,13 @@ class CryptoServiceImplTest {
             NormalizedCryptoPrice.builder()
                 .symbol("BTC")
                 .price(BigDecimal.ONE)
-                .timestamp(LocalDateTime.now())
+                .timestamp(OffsetDateTime.now())
                 .normalizedPrice(BigDecimal.ZERO)
                 .build(),
             NormalizedCryptoPrice.builder()
                 .symbol("ETH")
                 .price(BigDecimal.TEN)
-                .timestamp(LocalDateTime.now())
+                .timestamp(OffsetDateTime.now())
                 .normalizedPrice(BigDecimal.ONE)
                 .build());
   }
@@ -85,14 +84,14 @@ class CryptoServiceImplTest {
     assertThat(result).hasSize(2);
     CryptoPriceDto firstDto = result.get(0);
     CryptoPriceDto secondDto = result.get(1);
-    assertThat(firstDto.symbol()).isEqualTo("BTC");
-    assertThat(firstDto.price()).isEqualTo(BigDecimal.ONE);
-    assertThat(firstDto.normalizedPrice()).isEqualTo(BigDecimal.ZERO);
-    assertThat(secondDto.symbol()).isEqualTo("ETH");
-    assertThat(secondDto.price()).isEqualTo(BigDecimal.TEN);
-    assertThat(secondDto.normalizedPrice()).isEqualTo(BigDecimal.ONE);
+    assertThat(firstDto.symbol()).isEqualTo("ETH");
+    assertThat(firstDto.price()).isEqualTo(BigDecimal.TEN);
+    assertThat(firstDto.normalizedPrice()).isEqualTo(BigDecimal.ONE);
+    assertThat(secondDto.symbol()).isEqualTo("BTC");
+    assertThat(secondDto.price()).isEqualTo(BigDecimal.ONE);
+    assertThat(secondDto.normalizedPrice()).isEqualTo(BigDecimal.ZERO);
     verify(dataNormalizerImpl).normalize(any(), any());
-    assertThat(result).isSortedAccordingTo(Comparator.comparing(CryptoPriceDto::normalizedPrice));
+    assertThat(result).isSortedAccordingTo(comparing(CryptoPriceDto::normalizedPrice, reverseOrder()));
   }
 
   @Test
@@ -132,7 +131,7 @@ class CryptoServiceImplTest {
                 NormalizedCryptoPrice.builder()
                     .symbol("BTC")
                     .price(BigDecimal.ONE)
-                    .timestamp(LocalDateTime.now())
+                    .timestamp(OffsetDateTime.now())
                     .normalizedPrice(BigDecimal.ZERO)
                     .build()));
 
@@ -186,11 +185,11 @@ class CryptoServiceImplTest {
   @DisplayName("Should return crypto with highest normalized range for existing day")
   void shouldReturnCryptoWithHighestNormalizedRangeForExistingDay() {
     // Given
-    String existingDay = LocalDateTime.now().toLocalDate().toString();
+    String existingDay = OffsetDateTime.now().toLocalDate().toString();
     NormalizedCryptoPrice highestNormalizedPrice = NormalizedCryptoPrice.builder()
         .symbol("BTC")
         .price(BigDecimal.ONE)
-        .timestamp(LocalDateTime.now())
+        .timestamp(OffsetDateTime.now())
         .normalizedPrice(BigDecimal.ONE)
         .build();
     when(dataNormalizerImpl.normalize(any(), any())).thenReturn(List.of(highestNormalizedPrice));

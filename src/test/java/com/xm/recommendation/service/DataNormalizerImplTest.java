@@ -3,12 +3,14 @@ package com.xm.recommendation.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.mockito.Mockito.when;
 
+import com.xm.recommendation.config.ConfigProperties;
 import com.xm.recommendation.model.CryptoPrice;
 import com.xm.recommendation.model.CsvToCryptoPriceList;
 import com.xm.recommendation.model.NormalizedCryptoPrice;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,6 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class DataNormalizerImplTest {
 
   @InjectMocks private DataNormalizerImpl dataNormalizer;
+  @Mock private ConfigProperties properties;
 
   @Nested
   @DisplayName("Should normalize data with different strategies")
@@ -34,21 +38,22 @@ class DataNormalizerImplTest {
     @Test
     @DisplayName("Should normalize data using min-max normalization")
     void shouldNormalizeDataUsingMinMaxNormalization() {
+      when(properties.getPriceScale()).thenReturn(6);
       List<CryptoPrice> cryptoPrices =
           Arrays.asList(
               CryptoPrice.builder()
                   .symbol("BTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(100))
                   .build(),
               CryptoPrice.builder()
                   .symbol("ETH")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(200))
                   .build(),
               CryptoPrice.builder()
                   .symbol("LTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(300))
                   .build());
 
@@ -65,21 +70,22 @@ class DataNormalizerImplTest {
     @Test
     @DisplayName("Should normalize data using Z-score normalization")
     void shouldNormalizeDataUsingZScoreNormalization() {
+      when(properties.getPriceScale()).thenReturn(6);
       List<CryptoPrice> cryptoPrices =
           Arrays.asList(
               CryptoPrice.builder()
                   .symbol("BTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(100))
                   .build(),
               CryptoPrice.builder()
                   .symbol("ETH")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(200))
                   .build(),
               CryptoPrice.builder()
                   .symbol("LTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(300))
                   .build());
 
@@ -107,7 +113,7 @@ class DataNormalizerImplTest {
           Collections.singletonList(
               CryptoPrice.builder()
                   .symbol("BTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(100))
                   .build());
 
@@ -121,21 +127,22 @@ class DataNormalizerImplTest {
     @Test
     @DisplayName("Should normalize data when crypto prices are negative")
     void shouldNormalizeDataWhenCryptoPricesAreNegative() {
+      when(properties.getPriceScale()).thenReturn(6);
       List<CryptoPrice> cryptoPrices =
           Arrays.asList(
               CryptoPrice.builder()
                   .symbol("BTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(-100))
                   .build(),
               CryptoPrice.builder()
                   .symbol("ETH")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(-200))
                   .build(),
               CryptoPrice.builder()
                   .symbol("LTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(-300))
                   .build());
 
@@ -158,7 +165,7 @@ class DataNormalizerImplTest {
           Collections.singletonList(
               CryptoPrice.builder()
                   .symbol("BTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.ZERO)
                   .build());
 
@@ -176,17 +183,17 @@ class DataNormalizerImplTest {
           Arrays.asList(
               CryptoPrice.builder()
                   .symbol("BTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(100))
                   .build(),
               CryptoPrice.builder()
                   .symbol("ETH")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(100))
                   .build(),
               CryptoPrice.builder()
                   .symbol("LTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(100))
                   .build());
 
@@ -206,7 +213,7 @@ class DataNormalizerImplTest {
           Collections.singletonList(
               CryptoPrice.builder()
                   .symbol("BTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(-100))
                   .build());
 
@@ -224,7 +231,7 @@ class DataNormalizerImplTest {
           Collections.singletonList(
               CryptoPrice.builder()
                   .symbol("BTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(new BigDecimal("1E+12"))
                   .build());
 
@@ -242,7 +249,7 @@ class DataNormalizerImplTest {
           Collections.singletonList(
               CryptoPrice.builder()
                   .symbol("BTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(new BigDecimal("1E-12"))
                   .build());
 
@@ -283,7 +290,7 @@ class DataNormalizerImplTest {
           Collections.singletonList(
               CryptoPrice.builder()
                   .symbol("BTC")
-                  .timestamp(LocalDateTime.now())
+                  .timestamp(OffsetDateTime.now())
                   .price(BigDecimal.valueOf(100))
                   .build());
 
@@ -296,9 +303,9 @@ class DataNormalizerImplTest {
     @CsvSource({
         "null",
         "null, null, null",
-        "BTC 50000 2024-04-01T12:00, null, ETH 3000 2024-04-01T12:05",
-        "ETH 3000 2024-04-01T12:05, BTC 50000 2024-04-01T12:00, null",
-        "null, ETH 3000 2024-04-01T12:05, BTC 50000 2024-04-01T12:00, null",
+        "BTC 50000 2024-04-01T12:00:00Z, null, ETH 3000 2024-04-01T12:05:00Z",
+        "ETH 3000 2024-04-01T12:05:00Z, BTC 50000 2024-04-01T12:00:00Z, null",
+        "null, ETH 3000 2024-04-01T12:05:00Z, BTC 50000 2024-04-01T12:00:00Z, null",
     })
     void shouldThrowExceptionWhenCryptoPriceIsNull(@CsvToCryptoPriceList List<CryptoPrice> cryptoPrices) {
 
