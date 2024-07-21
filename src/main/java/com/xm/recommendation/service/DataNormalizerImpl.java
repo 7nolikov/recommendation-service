@@ -52,7 +52,9 @@ public class DataNormalizerImpl implements DataNormalizer {
                       .symbol(cryptoPrice.symbol())
                       .timestamp(cryptoPrice.timestamp())
                       .price(cryptoPrice.price())
-                      .normalizedPrice(BigDecimal.ZERO)
+                      .normalizedPrice(
+                          BigDecimal.ZERO.setScale(
+                              properties.getPriceScale(), RoundingMode.HALF_UP))
                       .build())
           .toList();
     }
@@ -70,8 +72,8 @@ public class DataNormalizerImpl implements DataNormalizer {
                             .subtract(minPrice)
                             .divide(
                                 (maxPrice.subtract(minPrice)),
-                                properties.getPriceScale(),
-                                RoundingMode.HALF_UP))
+                                new MathContext(properties.getPriceScale(), RoundingMode.HALF_UP))
+                            .setScale(properties.getPriceScale(), RoundingMode.HALF_UP))
                     .build())
         .toList();
   }
@@ -84,7 +86,8 @@ public class DataNormalizerImpl implements DataNormalizer {
             .reduce(BigDecimal.ZERO, BigDecimal::add)
             .divide(
                 BigDecimal.valueOf(cryptoPrices.size()),
-                new MathContext(properties.getPriceScale(), RoundingMode.HALF_UP));
+                new MathContext(properties.getPriceScale(), RoundingMode.HALF_UP))
+            .setScale(properties.getPriceScale(), RoundingMode.HALF_UP);
 
     BigDecimal variance =
         cryptoPrices.stream()
@@ -93,7 +96,13 @@ public class DataNormalizerImpl implements DataNormalizer {
             .reduce(BigDecimal.ZERO, BigDecimal::add)
             .divide(
                 BigDecimal.valueOf(cryptoPrices.size()),
-                new MathContext(properties.getPriceScale(), RoundingMode.HALF_UP));
+                new MathContext(properties.getPriceScale(), RoundingMode.HALF_UP))
+            .setScale(properties.getPriceScale(), RoundingMode.HALF_UP);
+
+
+    if (variance.compareTo(BigDecimal.ZERO) == 0) {
+      throw new ArithmeticException("Variance is zero, cannot perform Z-Score normalization.");
+    }
 
     BigDecimal standardDeviation =
         variance.sqrt(new MathContext(properties.getPriceScale(), RoundingMode.HALF_UP));
@@ -111,7 +120,8 @@ public class DataNormalizerImpl implements DataNormalizer {
                             .subtract(mean)
                             .divide(
                                 standardDeviation,
-                                new MathContext(properties.getPriceScale(), RoundingMode.HALF_UP)))
+                                new MathContext(properties.getPriceScale(), RoundingMode.HALF_UP))
+                            .setScale(properties.getPriceScale(), RoundingMode.HALF_UP))
                     .build())
         .toList();
   }
