@@ -10,6 +10,7 @@ import com.xm.recommendation.model.CryptoPriceDto;
 import com.xm.recommendation.model.ExtremesDto;
 import com.xm.recommendation.model.NormalizedCryptoPrice;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -161,7 +162,7 @@ class CryptoServiceImplTest {
   @DisplayName("Should return empty when finding highest normalized range for non-existing day")
   void shouldReturnEmptyWhenFindingHighestNormalizedRangeForNonExistingDay() {
     // Given
-    String nonExistingDay = "2023-01-01";
+    LocalDate nonExistingDay = LocalDate.parse("2023-01-01");
 
     // When
     Optional<CryptoPriceDto> result = cryptoService.findWithHighestNormalizedRange(nonExistingDay);
@@ -185,7 +186,7 @@ class CryptoServiceImplTest {
   @DisplayName("Should return crypto with highest normalized range for existing day")
   void shouldReturnCryptoWithHighestNormalizedRangeForExistingDay() {
     // Given
-    String existingDay = OffsetDateTime.now().toLocalDate().toString();
+    LocalDate existingDay = LocalDate.now();
     NormalizedCryptoPrice highestNormalizedPrice = NormalizedCryptoPrice.builder()
         .symbol("BTC")
         .price(BigDecimal.ONE)

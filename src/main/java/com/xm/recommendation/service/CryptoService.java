@@ -2,6 +2,7 @@ package com.xm.recommendation.service;
 
 import com.xm.recommendation.model.CryptoPriceDto;
 import com.xm.recommendation.model.ExtremesDto;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,5 +32,5 @@ public interface CryptoService {
    * @param day the day to get the highest normalized range for
    * @return the crypto with the highest normalized range for the given day
    */
-  Optional<CryptoPriceDto> findWithHighestNormalizedRange(String day);
+  Optional<CryptoPriceDto> findWithHighestNormalizedRange(LocalDate day);
 }

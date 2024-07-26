@@ -5,6 +5,7 @@ import com.xm.recommendation.model.CryptoPriceDto;
 import com.xm.recommendation.model.ExtremesDto;
 import com.xm.recommendation.model.NormalizedCryptoPrice;
 import jakarta.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -47,14 +48,15 @@ public class CryptoServiceImpl implements CryptoService {
   }
 
   @Override
-  public Optional<CryptoPriceDto> findWithHighestNormalizedRange(String day) {
-    Optional<NormalizedCryptoPrice> highestNormalizedPriceByDay =
-        dataNormalizerImpl.normalize(cryptoPrices, NormalizationStrategy.MIN_MAX).stream()
-            .filter(
-                normalizedCryptoPrice ->
-                    normalizedCryptoPrice.timestamp().toLocalDate().toString().equals(day))
-            .max(NormalizedCryptoPrice::compareTo);
-
-    return CryptoPriceDto.fromNormalizedCryptoPrices(highestNormalizedPriceByDay);
+  public Optional<CryptoPriceDto> findWithHighestNormalizedRange(LocalDate day) {
+    List<CryptoPrice> pricesPerDay =
+        cryptoPrices.stream()
+            .filter(cryptoPrice -> cryptoPrice.timestamp().toLocalDate().equals(day))
+            .toList();
+    List<NormalizedCryptoPrice> normalizedCryptoPricesPerDay =
+        dataNormalizerImpl.normalize(pricesPerDay, NormalizationStrategy.MIN_MAX);
+    Optional<NormalizedCryptoPrice> maxPricePerDay =
+        normalizedCryptoPricesPerDay.stream().max(NormalizedCryptoPrice::compareTo);
+    return CryptoPriceDto.fromNormalizedCryptoPrices(maxPricePerDay);
   }
 }
