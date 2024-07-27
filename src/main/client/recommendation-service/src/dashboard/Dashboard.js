@@ -4,8 +4,6 @@ import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import getDashboardTheme from './theme/getDashboardTheme';
-import ToggleCustomTheme from './internals/components/ToggleCustomTheme';
 import Navbar from './components/Navbar';
 import Header from './components/Header';
 import MainGrid from './components/MainGrid';
@@ -13,20 +11,14 @@ import SideMenu from './components/SideMenu';
 
 function Dashboard() {
   const [mode, setMode] = React.useState('light');
-  const [showCustomTheme, setShowCustomTheme] = React.useState(true);
-  const dashboardTheme = createTheme(getDashboardTheme(mode));
   const defaultTheme = createTheme({ palette: { mode } });
 
   const toggleColorMode = () => {
     setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
-  const toggleCustomTheme = () => {
-    setShowCustomTheme((prev) => !prev);
-  };
-
   return (
-    <ThemeProvider theme={showCustomTheme ? dashboardTheme : defaultTheme}>
+    <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
         <SideMenu />
@@ -56,10 +48,6 @@ function Dashboard() {
             <MainGrid />
           </Stack>
         </Box>
-        <ToggleCustomTheme
-          showCustomTheme={showCustomTheme}
-          toggleCustomTheme={toggleCustomTheme}
-        />
       </Box>
     </ThemeProvider>
   );

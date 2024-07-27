@@ -13,7 +13,6 @@ import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 import MenuButton from './MenuButton';
 import ToggleColorMode from './ToggleColorMode';
 import MenuContent from './MenuContent';
-import CardAlert from './CardAlert';
 
 function SideMenuMobile({ open, toggleDrawer, mode, toggleColorMode }) {
   return (
@@ -59,7 +58,6 @@ function SideMenuMobile({ open, toggleDrawer, mode, toggleColorMode }) {
           <MenuContent />
           <Divider />
         </Stack>
-        <CardAlert />
         <Stack sx={{ p: 2 }}>
           <Button variant="outlined" fullWidth startIcon={<LogoutRoundedIcon />}>
             Logout
