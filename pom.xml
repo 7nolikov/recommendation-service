@@ -198,7 +198,7 @@
         <configuration>
           <nodeVersion>${frontend-maven-plugin.nodeVersion}</nodeVersion>
           <npmVersion>${frontend-maven-plugin.npmVersion}</npmVersion>
-          <workingDirectory>src/main/client</workingDirectory>
+          <workingDirectory>src/main/client/recommendation-service</workingDirectory>
         </configuration>
         <executions>
           <execution>

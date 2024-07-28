@@ -25,7 +25,8 @@ src/main/client/**.pnp.js
 src/main/client/**/coverage
 
 # production
-src/main/client/node/
+src/main/client/recommendation-service/node/
+src/main/client/recommendation-service/node_modules/
 src/main/client/build/
 
 # misc

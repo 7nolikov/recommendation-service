@@ -20,17 +20,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CryptoPriceDto'
-  /crypto/highest-normalized-range/{day}:
+  /crypto/highest-normalized-range:
     get:
       tags:
       - crypto-controller
       operationId: findWithHighestNormalizedRange
       parameters:
       - name: day
-        in: path
+        in: query
         required: true
         schema:
           type: string
+          format: date
       responses:
         "200":
           description: OK
