@@ -28,6 +28,8 @@ src/main/client/**/coverage
 src/main/client/recommendation-service/node/
 src/main/client/recommendation-service/node_modules/
 src/main/client/build/
+src/main/client/node
+src/main/client/node_modules/
 
 # misc
 .DS_Store
