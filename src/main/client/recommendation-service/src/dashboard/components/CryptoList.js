@@ -50,6 +50,18 @@ const CryptoList = () => {
     }
   });
 
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    return new Intl.DateTimeFormat("en-GB", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }).format(date);
+  };
+
   if (loading) {
     return (
       <Box
@@ -80,8 +92,8 @@ const CryptoList = () => {
         component={Paper}
         style={{
           margin: "20px auto",
-          maxWidth: "50%",
-          height: "50vh",
+          maxWidth: "40%",
+          height: "35vh",
           overflow: "auto",
         }}
       >
@@ -143,7 +155,7 @@ const CryptoList = () => {
                 </TableCell>
                 <TableCell align="right">{crypto.price.toFixed(2)}</TableCell>
                 <TableCell align="right">
-                  {new Date(crypto.timestamp).toLocaleString()}
+                  {formatTimestamp(crypto.timestamp)}
                 </TableCell>
                 <TableCell align="right">
                   {crypto.normalizedPrice.toFixed(10)}

@@ -8,7 +8,6 @@ import CryptoList from "./components/CryptoList";
 import CryptoExtremes from "./components/CryptoExtremes";
 import HighestNormalizedRange from "./components/HighestNormalizedRange";
 import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
 
 function Dashboard() {
   const [mode, setMode] = React.useState("light");
