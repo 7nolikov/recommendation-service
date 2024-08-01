@@ -1,5 +1,6 @@
 package com.xm.recommendation.service;
 
+import com.xm.recommendation.exception.NoDataException;
 import com.xm.recommendation.model.CryptoPrice;
 import com.xm.recommendation.model.CryptoPriceDto;
 import com.xm.recommendation.model.ExtremesDto;
@@ -53,6 +54,9 @@ public class CryptoServiceImpl implements CryptoService {
         cryptoPrices.stream()
             .filter(cryptoPrice -> cryptoPrice.timestamp().toLocalDate().equals(day))
             .toList();
+    if (pricesPerDay.isEmpty()) {
+      throw new NoDataException("No data for the day: " + day);
+    }
     List<NormalizedCryptoPrice> normalizedCryptoPricesPerDay =
         dataNormalizerImpl.normalize(pricesPerDay, NormalizationStrategy.MIN_MAX);
     Optional<NormalizedCryptoPrice> maxPricePerDay =

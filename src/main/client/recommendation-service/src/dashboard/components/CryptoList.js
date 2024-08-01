@@ -139,7 +139,7 @@ const CryptoList = () => {
               >
                 <TableSortLabel
                   active={orderBy === "normalizedPrice"}
-                  direction={orderBy === "normalizedPrice" ? order : "asc"}
+                  direction={orderBy === "normalizedPrice" ? order : "desc"}
                   onClick={() => handleRequestSort("normalizedPrice")}
                 >
                   Normalized Price

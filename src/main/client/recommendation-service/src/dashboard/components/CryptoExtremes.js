@@ -24,7 +24,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Text,
 } from "recharts";
 
 const CryptoExtremes = () => {
@@ -49,13 +48,18 @@ const CryptoExtremes = () => {
       return;
     }
 
-    const data = await getExtremes(cryptoSymbol);
-    if (data.error) {
-      setError(data.error);
+    try {
+      const data = await getExtremes(cryptoSymbol);
+      if (data.error) {
+        setError(data.error);
+        setExtremes(null);
+      } else {
+        setExtremes(data);
+        setError(null);
+      }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again later.");
       setExtremes(null);
-    } else {
-      setExtremes(data);
-      setError(null);
     }
   };
 
@@ -81,19 +85,19 @@ const CryptoExtremes = () => {
   };
 
   return (
-    <Container>
+    <Container style={{ height: "35vh" }}>
       <Typography variant="h4" gutterBottom>
         Extremes
       </Typography>
       <Grid container spacing={4}>
         <Grid item xs={12} md={2}>
           <FormControl variant="outlined" fullWidth margin="normal">
-            <InputLabel id="crypto-select-label">Crypto Symbol</InputLabel>
+            <InputLabel id="crypto-select-label">Symbol</InputLabel>
             <Select
               labelId="crypto-select-label"
               value={cryptoSymbol}
               onChange={(e) => setCryptoSymbol(e.target.value)}
-              label="Crypto Symbol"
+              label="Symbol"
             >
               {cryptoList.map((symbol) => (
                 <MenuItem key={symbol} value={symbol}>
@@ -111,50 +115,51 @@ const CryptoExtremes = () => {
           >
             Search
           </Button>
-          {error && (
+        </Grid>
+        <Grid item xs={12} md={10}>
+          {error ? (
             <Alert severity="error" style={{ marginTop: "16px" }}>
               {error}
             </Alert>
-          )}
-        </Grid>
-        <Grid item xs={12} md={10}>
-          {extremes && (
-            <Card>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={250}>
-                  <BarChart
-                    data={formatDataForChart(extremes)}
-                    layout="vertical"
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis type="number" />
-                    <YAxis
-                      type="category"
-                      dataKey="name"
-                      tick={{ fill: "#666" }}
-                      width={100}
-                    />
-                    <Tooltip
-                      formatter={(value, name, props) => {
-                        const data = props.payload;
-                        if (data.date) {
-                          return [
-                            `$${value.toFixed(2)}`,
-                            `Date: ${new Date(
-                              data.timestamp
-                            ).toLocaleString()}`,
-                          ];
-                        }
-                        return `$${value.toFixed(2)}`;
-                      }}
-                      labelFormatter={() => ""}
-                      contentStyle={{ fontSize: "12px" }}
-                    />
-                    <Bar dataKey="price" fill="#1976d2" barSize={20} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
+          ) : (
+            extremes && (
+              <Card>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart
+                      data={formatDataForChart(extremes)}
+                      layout="vertical"
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis type="number" />
+                      <YAxis
+                        type="category"
+                        dataKey="name"
+                        tick={{ fill: "#666" }}
+                        width={100}
+                      />
+                      <Tooltip
+                        formatter={(value, name, props) => {
+                          const data = props.payload;
+                          if (data.date) {
+                            return [
+                              `$${value.toFixed(2)}`,
+                              `Date: ${new Date(
+                                data.timestamp
+                              ).toLocaleString()}`,
+                            ];
+                          }
+                          return `$${value.toFixed(2)}`;
+                        }}
+                        labelFormatter={() => ""}
+                        contentStyle={{ fontSize: "12px" }}
+                      />
+                      <Bar dataKey="price" fill="#1976d2" barSize={20} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            )
           )}
         </Grid>
       </Grid>

@@ -2,6 +2,7 @@ package com.xm.recommendation.controller;
 
 import com.xm.recommendation.exception.CryptoNotFoundException;
 import com.xm.recommendation.exception.CryptoServiceException;
+import com.xm.recommendation.exception.NoDataException;
 import com.xm.recommendation.exception.ResourceNotLoadedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,11 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(CryptoServiceException.class)
   public ResponseEntity<Object> handleCryptoServiceException(CryptoServiceException exception) {
     return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler(NoDataException.class)
+  public ResponseEntity<Object> handleCryptoServiceException(NoDataException exception) {
+    return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(ResourceNotLoadedException.class)
