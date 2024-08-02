@@ -20,6 +20,9 @@ public class WebConfig implements WebMvcConfigurer {
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    registry.addResourceHandler("/**").addResourceLocations("file:src/main/client/build/");
+    registry
+        .addResourceHandler("/static/**")
+        .addResourceLocations("classpath:/static/static/")
+        .setCachePeriod(3600);
   }
 }

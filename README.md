@@ -3,7 +3,7 @@
 Investment recommendation service that helps users make better investment decisions
 
 ## Test task description
-- [List of requirements](doc/TEST_TASK_DESCRIPTION.md)
+- [Functional requirements](doc/TEST_TASK_DESCRIPTION.md)
 - [Code quality requirements](doc/CODE_QUALITY_CHECKLIST.md)
 
 ## Requirements
@@ -29,6 +29,41 @@ mvn clean install
 ```bash
 mvn spring-boot:run
 ```
+- Open your browser and navigate to 
+[http://localhost:8080/api/recommendation-service/v1](http://localhost:8080/api/recommendation-service/v1)
+
+## Frontend build with Maven
+
+### Overview
+This project integrates a React frontend with a Spring Boot backend. 
+The frontend is built using the `frontend-maven-plugin` and `maven-resources-plugin`, 
+which automates the process of building 
+the React application during the Maven build process. 
+The resulting static files are then served by the Spring Boot application.
+
+### Project Structure
+Backend: Spring Boot application located in `src/main/java`.
+Frontend: React application located in `src/main/client/recommendation-service`.
+
+Steps to Build and Run the Application
+1. Ensure Node.js and npm are Installed
+   Make sure that Node.js and npm are installed on your development machine. 
+These are required to build the React application.
+
+2. Maven Configuration
+   The frontend is built using the frontend-maven-plugin. The configuration is defined in the pom.xml file.
+3. Build the Application
+   This will:
+   - Install Node.js and npm.
+   - Run npm install to install the frontend dependencies.
+   - Run npm run build to build the React application.
+   - Copy the generated build files to the Spring Boot static resources directory (target/classes/static).
+
+### Important notes
+The frontend is served directly by Spring Boot from the static directory.
+All API calls should be prefixed with the context path /api/recommendation-service/v1.
+If you need to serve the frontend from a different path, 
+update the SpaController and addResourceHandlers method in your Spring Boot configuration.
 
 ## Swagger
 
@@ -41,7 +76,7 @@ mvn spring-boot:run
 
 ## Project configuration
 
-Project configuration can be found in:
+Project profiles and configuration can be found in:
 - [application.properties](src/main/resources/application.properties)
 - [application-dev.properties](src/main/resources/application-dev.properties)
 - [application-prod.properties](src/main/resources/application-prod.properties)
