@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 import lombok.Builder;
 
 /**
- * DTO for crypto price.
+ * Crypto price.
  */
 @Builder
 public record CryptoPrice(String symbol, BigDecimal price, OffsetDateTime timestamp) {}
