@@ -34,11 +34,11 @@
 - [x] Test coverage
 - [x] Integration tests
 - [ ] Testcontainers
-- [ ] Given Then approach
+- [x] Given Then approach
 
 ## Functional requirements
-- [ ] Requirements fulfilled
-- [ ] Cannot load additional cryptos at runtime
+- [x] Requirements fulfilled
+- [x] Cannot load additional cryptos at runtime
 
 ## Caching
 - [ ] Redis
@@ -47,8 +47,8 @@
 - [ ] Postgres
 
 ## Containerization
-- [ ] Dockerfile
-- [ ] Docker-compose
+- [x] Dockerfile
+- [x] Docker-compose
 
 ## Rate limiter
 - [ ] Bucket4j
