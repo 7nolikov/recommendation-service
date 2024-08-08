@@ -5,9 +5,8 @@ import com.opencsv.exceptions.CsvException;
 import com.xm.recommendation.config.ConfigProperties;
 import com.xm.recommendation.exception.ResourceNotLoadedException;
 import com.xm.recommendation.model.CryptoPrice;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -46,8 +45,7 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
       log.debug("Found {} resources in the directory", resources.length);
 
       for (Resource resource : resources) {
-        File file = resource.getFile();
-        loadedCryptoPrices.addAll(loadFile(file));
+        loadedCryptoPrices.addAll(loadFile(resource));
       }
     } catch (IOException e) {
       throw new ResourceNotLoadedException(
@@ -61,17 +59,18 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
   /**
    * Load data from a file.
    *
-   * @param file the file to load data from
+   * @param resource the resource to load data from
    * @return a list of crypto prices
    */
-  private List<CryptoPrice> loadFile(File file) {
-    log.debug("Starting to load data from file: {}", file.getName());
-    if (!file.getName().endsWith(SOURCE_FILE_NAMING_POSTFIX_PATTERN)) {
+  private List<CryptoPrice> loadFile(Resource resource) {
+    String fileName = resource.getFilename();
+    log.debug("Starting to load data from file: {}", fileName);
+    if (fileName == null || !fileName.endsWith(SOURCE_FILE_NAMING_POSTFIX_PATTERN)) {
       throw new ResourceNotLoadedException(
-          "Source file has incorrect naming pattern" + file.getName());
+          "Source file has incorrect naming pattern" + fileName);
     }
     try {
-      try (CSVReader reader = new CSVReader(new FileReader(file))) {
+      try (CSVReader reader = new CSVReader(new InputStreamReader(resource.getInputStream()))) {
         List<String[]> rows = reader.readAll();
         rows.remove(0);
 
@@ -90,7 +89,7 @@ public class CsvCryptoPriceLoader implements CryptoPriceLoader {
 
         log.debug(
             "Finished loading data from file: {}. Loaded {} values.",
-            file.getName(),
+            fileName,
             cryptoPrices.size());
         return cryptoPrices;
       }
