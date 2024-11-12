@@ -175,9 +175,3 @@ project's `pom.xml` file and checkstyle report in file:
 
 You can install the Google Java Style plugin in your IDE to help you format your code:
 - [google-java-format plugin](https://plugins.jetbrains.com/plugin/8527-google-java-format)
-
-## Target architecture
-
-![Screenshot](src/main/resources/static/schema.png)
-
-![Screenshot](src/main/resources/static/scale_schema.png)
