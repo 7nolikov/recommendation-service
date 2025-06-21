@@ -1,10 +1,28 @@
 {
-  "name": "Java 17 Development Environment",
-  "image": "mcr.microsoft.com/devcontainers/java:17",
+  "name": "Java",
+  "image": "mcr.microsoft.com/devcontainers/java:1-21",
   "features": {
-    "ghcr.io/devcontainers/features/maven:1": {
-      "version": "latest"
-    }
-  },
+		"ghcr.io/devcontainers/features/java:1": {
+			"version": "none",
+			"installMaven": "true",
+			"mavenVersion": "3.8.6",
+			"installGradle": "false"
+		}
+	},
+  "customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"streetsidesoftware.code-spell-checker"
+			]
+		}
+	},
   "postCreateCommand": "java -version && mvn -version"
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
 }
