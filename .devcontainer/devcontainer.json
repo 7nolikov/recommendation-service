@@ -1,5 +1,10 @@
 {
   "name": "Java 17 Development Environment",
   "image": "mcr.microsoft.com/devcontainers/java:17",
+  "features": {
+    "ghcr.io/devcontainers/features/maven:1": {
+      "version": "latest"
+    }
+  },
   "postCreateCommand": "java -version && mvn -version"
 }
