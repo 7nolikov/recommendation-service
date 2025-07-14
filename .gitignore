@@ -12,10 +12,6 @@ target/
 *.iml
 *.ipr
 
-### VS Code ###
-.vscode/
-
-
 # dependencies
 src/main/client/node_modules/
 src/main/client/**/.pnp
