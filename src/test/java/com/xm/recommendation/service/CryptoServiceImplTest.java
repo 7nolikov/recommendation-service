@@ -11,7 +11,9 @@ import com.xm.recommendation.model.ExtremesDto;
 import com.xm.recommendation.model.NormalizedCryptoPrice;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +48,11 @@ class CryptoServiceImplTest {
                 .symbol("BTC")
                 .price(BigDecimal.ONE)
                 .timestamp(OffsetDateTime.now())
+                .build(),
+            CryptoPrice.builder()
+                .symbol("BTC")
+                .price(BigDecimal.ONE)
+                .timestamp(OffsetDateTime.of(LocalDateTime.of(2023, 1, 1, 0, 0), ZoneOffset.UTC))
                 .build(),
             CryptoPrice.builder()
                 .symbol("ETH")
@@ -163,6 +170,9 @@ class CryptoServiceImplTest {
   void shouldReturnEmptyWhenFindingHighestNormalizedRangeForNonExistingDay() {
     // Given
     LocalDate nonExistingDay = LocalDate.parse("2023-01-01");
+    when(cryptoPriceLoader.load()).thenReturn(cryptoPrices);
+    when(extremesCalculator.calculateExtremes(cryptoPrices)).thenReturn(extremes);
+    cryptoService.postConstruct();
 
     // When
     Optional<CryptoPriceDto> result = cryptoService.findWithHighestNormalizedRange(nonExistingDay);
@@ -194,6 +204,9 @@ class CryptoServiceImplTest {
         .normalizedPrice(BigDecimal.ONE)
         .build();
     when(dataNormalizerImpl.normalize(any(), any())).thenReturn(List.of(highestNormalizedPrice));
+    when(cryptoPriceLoader.load()).thenReturn(cryptoPrices);
+    when(extremesCalculator.calculateExtremes(cryptoPrices)).thenReturn(extremes);
+    cryptoService.postConstruct();
 
     // When
     Optional<CryptoPriceDto> result = cryptoService.findWithHighestNormalizedRange(existingDay);

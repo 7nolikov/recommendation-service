@@ -29,7 +29,7 @@ public class CryptoServiceImpl implements CryptoService {
 
   /** Load the crypto prices after the bean is constructed. */
   @PostConstruct
-  private void postConstruct() {
+  void postConstruct() {
     cryptoPrices = cryptoPriceLoader.load();
     extremes = extremesCalculator.calculateExtremes(cryptoPrices);
   }
