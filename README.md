@@ -1,4 +1,4 @@
-# Test task | Recommendation service
+# Recommendation service
 
 Investment recommendation service that helps users make better investment decisions
 
