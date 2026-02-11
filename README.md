@@ -2,7 +2,7 @@
 
 Investment recommendation service that helps users make better investment decisions
 
-## Test task description
+## Description
 - [Functional requirements](doc/TEST_TASK_DESCRIPTION.md)
 - [Code quality requirements](doc/CODE_QUALITY_CHECKLIST.md)
 
